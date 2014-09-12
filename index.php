@@ -125,6 +125,7 @@
             $data['query_success'] = true;
             $new_data = array();
             while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                $row['BookID'] = intval($row['BookID']);
                 array_push($new_data,$row);
             }
 
