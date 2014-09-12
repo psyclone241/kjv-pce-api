@@ -10,6 +10,36 @@
 
     if($get_books) {
         $query = "SELECT BookID,BookName,BookAbr FROM Bible GROUP BY BookID ORDER BY BookID";
+    } elseif($get_chapters) {
+        if($book) {
+            $query = "SELECT Chapter FROM Bible WHERE ";
+            if(is_numeric($book)) {
+                $book_query = "BookID='" . $book . "'";
+            } else {
+                if(strlen($book) > 3) {
+                    $book_query = "BookName='" . $book . "'";
+                } else {
+                    $book_query = "BookAbr='" . $book . "'";
+                }
+            }
+            $query .= $book_query . " GROUP BY Chapter ORDER BY Chapter";
+        }
+    } elseif($get_verses) {
+        if(($book) && ($chapter)) {
+            $query = "SELECT Verse FROM Bible WHERE ";
+            if(is_numeric($book)) {
+                $book_query = "BookID='" . $book . "'";
+            } else {
+                if(strlen($book) > 3) {
+                    $book_query = "BookName='" . $book . "'";
+                } else {
+                    $book_query = "BookAbr='" . $book . "'";
+                }
+            }
+            $query .= $book_query;
+            $query .= " AND Chapter='" . $chapter . "'";
+            $query .= " GROUP BY Chapter ORDER BY Chapter";
+        }
     } else {
         $query = "SELECT * FROM Bible WHERE ";
         $and = false;
