@@ -124,10 +124,14 @@
         if(count($result) > 0) {
             $data['query_success'] = true;
             $new_data = array();
-
             while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 array_push($new_data,$row);
             }
+
+            if($get_books) {
+                array_multisort($new_data['BookID'],SORT_ASC,$new_data);
+            }
+
             $data['result_count'] = count($new_data);
             $data['results'] = $new_data;
         }
