@@ -9,7 +9,7 @@
     $db = new SQLite3('KJV-PCE.db');
 
     if($get_books) {
-        $query = "SELECT BookID,BookName,BookAbr FROM Bible GROUP BY BookID";
+        $query = "SELECT BookID,BookName,BookAbr FROM Bible GROUP BY BookID ORDER BY BookID";
     } else {
         $query = "SELECT * FROM Bible WHERE ";
         $and = false;
