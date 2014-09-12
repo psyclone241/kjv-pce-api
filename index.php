@@ -5,6 +5,8 @@
     $keyword = $_GET['keyword'];
     $match = $_GET['match'];
     $get_books = $_GET['get_books'];
+    $get_chapters = $_GET['get_chapters'];
+    $get_verses = $_GET['get_verses'];
 
     $db = new SQLite3('KJV-PCE.db');
 
