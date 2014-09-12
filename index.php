@@ -22,7 +22,7 @@
                     $book_query = "BookAbr='" . $book . "'";
                 }
             }
-            $query .= $book_query . " GROUP BY Chapter ORDER BY Chapter";
+            $query .= $book_query . " GROUP BY BookID,Chapter ORDER BY Chapter";
         }
     } elseif($get_verses) {
         if(($book) && ($chapter)) {
@@ -38,7 +38,7 @@
             }
             $query .= $book_query;
             $query .= " AND Chapter='" . $chapter . "'";
-            $query .= " GROUP BY Chapter ORDER BY Chapter";
+            $query .= " GROUP BY BookID, Chapter, Verse ORDER BY Chapter";
         }
     } else {
         $query = "SELECT * FROM Bible WHERE ";
