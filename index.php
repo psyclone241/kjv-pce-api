@@ -7,6 +7,7 @@
     $get_books = $_GET['get_books'];
     $get_chapters = $_GET['get_chapters'];
     $get_verses = $_GET['get_verses'];
+    $include_data = $_GET['include_data'];
 
     $db = new SQLite3('KJV-PCE.db');
 
@@ -14,7 +15,14 @@
         $query = "SELECT BookID,BookName,BookAbr FROM Bible GROUP BY BookID ORDER BY BookID";
     } elseif($get_chapters) {
         if($book) {
-            $query = "SELECT Chapter FROM Bible WHERE ";
+
+            if($include_data) {
+                $columns = '*';
+            } else {
+                $columns = 'Chapter';
+            }
+
+            $query = "SELECT " . $columns . " FROM Bible WHERE ";
             if(is_numeric($book)) {
                 $book_query = "BookID='" . $book . "'";
             } else {
@@ -28,7 +36,14 @@
         }
     } elseif($get_verses) {
         if(($book) && ($chapter)) {
-            $query = "SELECT Verse FROM Bible WHERE ";
+
+            if($include_data) {
+                $columns = '*';
+            } else {
+                $columns = 'Verse';
+            }
+
+            $query = "SELECT " . $columns . " FROM Bible WHERE ";
             if(is_numeric($book)) {
                 $book_query = "BookID='" . $book . "'";
             } else {
