@@ -268,6 +268,6 @@
         }
     } else {
         print('You must get an API key assigned.  They are free, just email psyclone241@gmail.com and request'
-            . 'an API Key')
+            . 'an API Key');
     }
 ?>
