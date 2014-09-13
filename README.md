@@ -30,7 +30,7 @@ Parameters          Possible Values
 section             str('OT') or str('NT') -> Used individually or in conjunction with keyword, book, chapter, verses
 book                int(BookID), str(BookName), str(BookAbr) -> Used individually or in conjunction with keyword, section, chapter, verses
 chapter             int(Chapter) -> Used individually or in conjunction with keyword, section, book, verses
-verses              int(x), int(x)-int(y), int(a),int(c), int(d) -> Used individually or in conjunction with keyword, section, book, chapter
+verse or verses     int(x), int(x)-int(y), int(a),int(c), int(d) -> Used individually or in conjunction with keyword, section, book, chapter
 
 keyword             str('string') -> Requires (match), used in conjunction with section, book, chapter, and/or verses
 match               str('contains'), str('startswith'), str('endswith') -> Used in conjunction with keyword
