@@ -211,6 +211,8 @@
                     $keyword_query .= "'" . $keyword . "%'";
                 } elseif($match == 'endswith') {
                     $keyword_query .= "'%" . $keyword . "'";
+                } elseif($match == 'exact') {
+                    $keyword_query .= "'% " . $keyword . " %'";
                 } else {
                     $keyword_query = '';
                 }
