@@ -125,6 +125,9 @@
                     $book_query = "BookAbr='" . $book . "'";
                 }
             }
+            if($and) {
+                $query .= " AND ";
+            }
             $query .= $book_query;
             $and = true;
         }
