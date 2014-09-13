@@ -244,7 +244,7 @@
                 }
 
                 if($row['Verse']) {
-                    $row['Link'] = "http://kjv.byfaith.net/?book=" . $row['BookID'] . "&chapter=" . $row['Chapter']
+                    $row['Link'] = "?book=" . $row['BookID'] . "&chapter=" . $row['Chapter']
                         . "&verses=" . $row['Verse'];
                 }
 
