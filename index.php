@@ -3,6 +3,9 @@
     $book = $_GET['book'];
     $chapter = $_GET['chapter'];
     $verses = $_GET['verses'];
+    if($_GET['verse']) {
+        $verses = $_GET['verse'];
+    }
     $keyword = $_GET['keyword'];
     $match = $_GET['match'];
     $get_section = $_GET['get_section'];
@@ -242,7 +245,7 @@
 
                 if($row['Verse']) {
                     $row['Link'] = "http://kjv.byfaith.net/?book=" . $row['BookID'] . "&chapter=" . $row['Chapter']
-                        . "&verse=" . $row['Verse'];
+                        . "&verses=" . $row['Verse'];
                 }
 
                 array_push($new_data,$row);
