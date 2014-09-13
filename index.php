@@ -1,9 +1,11 @@
 <?
+    $section = $_GET['section'];
     $book = $_GET['book'];
     $chapter = $_GET['chapter'];
     $verses = $_GET['verses'];
     $keyword = $_GET['keyword'];
     $match = $_GET['match'];
+    $get_section = $_GET['get_section'];
     $get_books = $_GET['get_books'];
     $get_chapters = $_GET['get_chapters'];
     $get_verses = $_GET['get_verses'];
@@ -11,7 +13,33 @@
 
     $db = new SQLite3('KJV-PCE.db');
 
-    if($get_books) {
+    if($get_section) {
+        if(($get_section == 'OT') || ($get_section == 'NT')) {
+            if($include_data) {
+                $columns = '*';
+            } else {
+                $columns = 'BookID,BookName,BookAbr';
+            }
+
+            if($get_section == 'OT') {
+                $ids = range(1,39);
+            } else {
+                $ids = range(40,66);
+            }
+
+            $idCount = 0;
+            $idRange = "IN(";
+            foreach($ids as $id) {
+                if($idCount > 0) {
+                    $idRange .= ',';
+                }
+                $idRange .= "'" . $id . "'";
+                $idCount++;
+            }
+            $idRange = ")";
+            $query = "SELECT " . $columns . " FROM Bible WHERE BookID " . $idRange . " GROUP BY BookID ORDER BY BookID";
+        }
+    } elseif($get_books) {
         $query = "SELECT BookID,BookName,BookAbr FROM Bible GROUP BY BookID ORDER BY BookID";
     } elseif($get_chapters) {
         if($book) {
@@ -60,6 +88,33 @@
     } else {
         $query = "SELECT * FROM Bible WHERE ";
         $and = false;
+
+        if($section) {
+            if(($section == 'OT') || ($section == 'NT')) {
+                if($get_section == 'OT') {
+                    $ids = range(1,39);
+                } else {
+                    $ids = range(40,66);
+                }
+
+                $idCount = 0;
+                $idRange = "IN(";
+                foreach($ids as $id) {
+                    if($idCount > 0) {
+                        $idRange .= ',';
+                    }
+                    $idRange .= "'" . $id . "'";
+                    $idCount++;
+                }
+                $idRange = ")";
+                if($and) {
+                    $query .= " AND ";
+                }
+                $query .= "BookID " . $idRange;
+                $and = true;
+            }
+        }
+
         if($book) {
             if(is_numeric($book)) {
                 $book_query = "BookID='" . $book . "'";
@@ -175,6 +230,13 @@
                 $row['BookID'] = intval($row['BookID']);
                 $row['Chapter'] = intval($row['Chapter']);
                 $row['Verse'] = intval($row['Verse']);
+
+                if($row['BookID'] <= 39) {
+                    $row['Section'] = 'OT';
+                } else {
+                    $row['Section'] = 'NT';
+                }
+
                 array_push($new_data,$row);
             }
 
