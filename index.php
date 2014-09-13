@@ -240,6 +240,11 @@
                     $row['Section'] = 'NT';
                 }
 
+                if($row['Verse']) {
+                    $row['Link'] = "http://kjv.byfaith.net/?book=" . $row['BookID'] . "&chapter=" . $row['Chapter']
+                        . "&verse=" . $row['Verse'];
+                }
+
                 array_push($new_data,$row);
             }
 
