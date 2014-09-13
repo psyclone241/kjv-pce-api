@@ -91,7 +91,7 @@
 
         if($section) {
             if(($section == 'OT') || ($section == 'NT')) {
-                if($get_section == 'OT') {
+                if($section == 'OT') {
                     $ids = range(1,39);
                 } else {
                     $ids = range(40,66);
