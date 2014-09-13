@@ -36,7 +36,7 @@
                 $idRange .= "'" . $id . "'";
                 $idCount++;
             }
-            $idRange = ")";
+            $idRange .= ")";
             $query = "SELECT " . $columns . " FROM Bible WHERE BookID " . $idRange . " GROUP BY BookID ORDER BY BookID";
         }
     } elseif($get_books) {
@@ -106,7 +106,7 @@
                     $idRange .= "'" . $id . "'";
                     $idCount++;
                 }
-                $idRange = ")";
+                $idRange .= ")";
                 if($and) {
                     $query .= " AND ";
                 }
