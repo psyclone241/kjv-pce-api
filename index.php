@@ -267,7 +267,7 @@
             echo $exception->getMessage();
         }
     } else {
-        print('You must get an API key assigned.  They are free, just email psyclone241@gmail.com and request'
-            . 'an API Key');
+        print('You must get an API key assigned.  They are free, just email <a href="mailto:psyclone241@gmail.com">'
+            . 'psyclone241@gmail.com</a> and request an API Key');
     }
 ?>
