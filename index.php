@@ -1,7 +1,5 @@
 <?
-    $api_keys = array(
-        1 => 'GD0yZORWAIIefQD8tf1o12eyv1dKBBLR'
-    );
+    include('api_settings.php');
 
     $key = $_GET['key'];
     $section = $_GET['section'];
@@ -19,7 +17,7 @@
     $get_verses = $_GET['get_verses'];
     $include_data = $_GET['include_data'];
 
-    if(array_search($key, $api_keys)) {
+    if(array_search($key, $_api_keys)) {
         $db = new SQLite3('KJV-PCE.db');
 
         if($get_section) {
