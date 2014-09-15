@@ -2,6 +2,10 @@ kjv-pce-api
 =====================================================================================
 King James Version PCE API for Public Consumption
 
+Data
+=====================================================================================
+The SQLite Database was made available from http://www.bibleprotector.com/KJV-PCE.db
+
 Usage
 =====================================================================================
 --Lists of Specific Groups--
