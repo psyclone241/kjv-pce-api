@@ -243,9 +243,18 @@
                 $data['query_success'] = true;
                 $new_data = array();
                 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-                    $row['BookID'] = intval($row['BookID']);
-                    $row['Chapter'] = intval($row['Chapter']);
-                    $row['Verse'] = intval($row['Verse']);
+
+                    if($row['BookID']) {
+                        $row['BookID'] = intval($row['BookID']);
+                    }
+
+                    if($row['Chapter']) {
+                        $row['Chapter'] = intval($row['Chapter']);
+                    }
+
+                    if($row['Verse']) {
+                        $row['Verse'] = intval($row['Verse']);
+                    }
 
                     if($row['BookID'] <= 39) {
                         $row['Section'] = 'OT';
