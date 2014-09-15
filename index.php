@@ -80,7 +80,7 @@
                 }
                 $query .= $book_query;
                 $query .= " AND Chapter='" . $chapter . "'";
-                $query .= " GROUP BY BookID, Chapter, Verse ORDER BY Chapter";
+                $query .= " GROUP BY Chapter, Verse ORDER BY Chapter";
             }
         } else {
             $query = "SELECT * FROM Bible WHERE ";
