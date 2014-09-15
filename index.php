@@ -65,7 +65,7 @@
                 if($include_data) {
                     $columns = '*';
                 } else {
-                    $columns = 'Verse';
+                    $columns = 'Chapter, Verse';
                 }
 
                 $query = "SELECT " . $columns . " FROM Bible WHERE ";
