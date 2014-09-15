@@ -65,7 +65,7 @@
                 if($include_data) {
                     $columns = '*';
                 } else {
-                    $columns = 'Chapter, Verse';
+                    $columns = 'Verse';
                 }
 
                 $query = "SELECT " . $columns . " FROM Bible WHERE ";
@@ -232,11 +232,6 @@
                         $row['Section'] = 'OT';
                     } else {
                         $row['Section'] = 'NT';
-                    }
-
-                    if($row['Verse']) {
-                        $row['Link'] = "?book=" . $row['BookID'] . "&chapter=" . $row['Chapter']
-                            . "&verses=" . $row['Verse'];
                     }
 
                     array_push($new_data,$row);
