@@ -29,7 +29,7 @@
                     $columns = 'BookID,BookName,BookAbr';
                 }
                 $idRange = makeSectionQuery($get_section);
-                $query = "SELECT " . $columns . " FROM Bible WHERE BookID " . $idRange;
+                $query = "SELECT " . $columns . " FROM Bible WHERE BookID " . $idRange . " GROUP BY BookID ORDER BY BookID";
             }
         } elseif($get_books) {
             $query = "SELECT BookID,BookName,BookAbr FROM Bible";
@@ -37,6 +37,7 @@
                 $idRange = makeSectionQuery($section);
                 $query .= " WHERE BookID " . $idRange;
             }
+            $query .= " GROUP BY BookID ORDER BY BookID";
         } elseif($get_chapters) {
             if($book) {
 
@@ -56,7 +57,7 @@
                         $book_query = "BookAbr='" . $book . "'";
                     }
                 }
-                $query .= $book_query;
+                $query .= $book_query . " GROUP BY BookID,Chapter ORDER BY Chapter";
             }
         } elseif($get_verses) {
             if(($book) && ($chapter)) {
@@ -79,6 +80,7 @@
                 }
                 $query .= $book_query;
                 $query .= " AND Chapter='" . $chapter . "'";
+                $query .= " GROUP BY Chapter, Verse ORDER BY Chapter";
             }
         } else {
             $query = "SELECT * FROM Bible WHERE ";
