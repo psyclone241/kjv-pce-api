@@ -35,10 +35,11 @@ verse or verses     int(x), int(x)-int(y), int(a),int(c), int(d) -> Used individ
 
 keyword             str('string') -> Requires (match), used in conjunction with section, book, chapter, and/or verses
 match               str('contains'), str('startswith'), str('endswith'), str('exact') -> Used in conjunction with keyword
-insensitive         boolean -> Sets the whole query to case insensitive, case sensitive is the default
 
 get_section         str('OT') or str('NT')
 get_books           boolean -> Requires (book)
 get_chapters        boolean -> Requires (book, chapter)
 get_verses          boolean -> Requires (book, chapter, verses)
+
 include_data        boolean -> Used in conjunction with get_* parameters
+insensitive         boolean -> Sets the whole query to case insensitive, case sensitive is the default
