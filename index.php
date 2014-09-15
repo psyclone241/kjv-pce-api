@@ -19,7 +19,7 @@
     $case_insensitive = $_GET['insensitive'];
 
     if(array_search($key, $_api_keys)) {
-        $db = new SQLite3('KJV-PCE.db');
+        $db = new SQLite3($_db);
 
         if($get_section) {
             if(($get_section == 'OT') || ($get_section == 'NT')) {
