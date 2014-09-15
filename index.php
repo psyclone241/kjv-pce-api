@@ -227,7 +227,7 @@
             }
         }
 
-        if($case_sensitive) {
+        if(!$case_sensitive) {
             $query .= " COLLATE NOCASE";
         }
 
