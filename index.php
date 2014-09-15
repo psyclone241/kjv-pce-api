@@ -87,13 +87,12 @@
             $and = false;
 
             if($section) {
-                    $idRange = makeSectionQuery($section);
-                    if($and) {
-                        $query .= " AND ";
-                    }
-                    $query .= "BookID " . $idRange;
-                    $and = true;
+                $idRange = makeSectionQuery($section);
+                if($and) {
+                    $query .= " AND ";
                 }
+                $query .= "BookID " . $idRange;
+                $and = true;
             }
 
             if($book) {
