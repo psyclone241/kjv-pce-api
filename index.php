@@ -16,6 +16,7 @@
     $get_chapters = $_GET['get_chapters'];
     $get_verses = $_GET['get_verses'];
     $include_data = $_GET['include_data'];
+    $case_sensitive = $_GET['case_sensitive'];
 
     if(array_search($key, $_api_keys)) {
         $db = new SQLite3('KJV-PCE.db');
@@ -226,6 +227,9 @@
             }
         }
 
+        if($case_sensitive) {
+            $query .= " COLLATE NOCASE";
+        }
 
         try {
             $data = array();
