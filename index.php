@@ -28,27 +28,16 @@
                 } else {
                     $columns = 'BookID,BookName,BookAbr';
                 }
-
-                if($get_section == 'OT') {
-                    $ids = range(1,39);
-                } else {
-                    $ids = range(40,66);
-                }
-
-                $idCount = 0;
-                $idRange = "IN(";
-                foreach($ids as $id) {
-                    if($idCount > 0) {
-                        $idRange .= ',';
-                    }
-                    $idRange .= "'" . $id . "'";
-                    $idCount++;
-                }
-                $idRange .= ")";
+                $idRange = makeSectionQuery($get_section);
                 $query = "SELECT " . $columns . " FROM Bible WHERE BookID " . $idRange . " GROUP BY BookID ORDER BY BookID";
             }
         } elseif($get_books) {
-            $query = "SELECT BookID,BookName,BookAbr FROM Bible GROUP BY BookID ORDER BY BookID";
+            $query = "SELECT BookID,BookName,BookAbr FROM Bible";
+            if($section) {
+                $idRange = makeSectionQuery($section);
+                $query .= " WHERE BookID " . $idRange;
+            }
+            $query .= " GROUP BY BookID ORDER BY BookID";
         } elseif($get_chapters) {
             if($book) {
 
@@ -98,23 +87,7 @@
             $and = false;
 
             if($section) {
-                if(($section == 'OT') || ($section == 'NT')) {
-                    if($section == 'OT') {
-                        $ids = range(1,39);
-                    } else {
-                        $ids = range(40,66);
-                    }
-
-                    $idCount = 0;
-                    $idRange = "IN(";
-                    foreach($ids as $id) {
-                        if($idCount > 0) {
-                            $idRange .= ',';
-                        }
-                        $idRange .= "'" . $id . "'";
-                        $idCount++;
-                    }
-                    $idRange .= ")";
+                    $idRange = makeSectionQuery($section);
                     if($and) {
                         $query .= " AND ";
                     }
@@ -282,5 +255,25 @@
     } else {
         print('You must get an API key assigned.  They are free, just email <a href="mailto:psyclone241@gmail.com">'
             . 'psyclone241@gmail.com</a> and request an API Key');
+    }
+
+    function makeSectionQuery($section) {
+        if($section == 'OT') {
+            $ids = range(1,39);
+        } else {
+            $ids = range(40,66);
+        }
+
+        $idCount = 0;
+        $idRange = "IN(";
+        foreach($ids as $id) {
+            if($idCount > 0) {
+                $idRange .= ',';
+            }
+            $idRange .= "'" . $id . "'";
+            $idCount++;
+        }
+        $idRange .= ")";
+        return $idRange;
     }
 ?>
