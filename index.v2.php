@@ -33,7 +33,7 @@
             }
         } elseif($get_books) {
             if($section) {
-                if($get_section == 'OT') {
+                if($section == 'OT') {
                     $query = "SELECT * FROM 'Old_Testament_Books'";
                 } else {
                     $query = "SELECT * FROM 'New_Testament_Books'";
