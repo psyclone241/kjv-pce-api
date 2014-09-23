@@ -1,4 +1,4 @@
-<?
+<?php
     include('api_settings.php');
 
     $key = $_GET['key'];

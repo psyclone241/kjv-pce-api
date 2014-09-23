@@ -1,6 +1,6 @@
-<?
+<?php
 	$_db = 'some_file.db';
-	$api_keys = (
+	$api_keys = array(
 		1 => '_key_goes_here'
 	);
 ?>
