@@ -1,23 +1,8 @@
 <?php
-    include('api_settings.php');
-
-    $key = $_GET['key'];
-    $section = $_GET['section'];
-    $book = $_GET['book'];
-    $chapter = $_GET['chapter'];
-    $verses = $_GET['verses'];
-    if($_GET['verse']) {
-        $verses = $_GET['verse'];
-    }
-    $keyword = $_GET['keyword'];
-    $match = $_GET['match'];
-    $get_section = $_GET['get_section'];
-    $get_books = $_GET['get_books'];
-    $get_chapters = $_GET['get_chapters'];
-    $get_verses = $_GET['get_verses'];
-    $include_data = $_GET['include_data'];
-    $case_insensitive = $_GET['insensitive'];
-
+    include('../api_settings.php');
+    include('../functions.php');
+    include('../get_vars.php');
+    
     if(array_search($key, $_api_keys)) {
         $db = new SQLite3($_db);
 
