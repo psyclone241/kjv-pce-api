@@ -4,7 +4,7 @@
     $book = check_var('book');
     $chapter = check_var('chapter');
     $verses = check_var('verses');
-    if(check_var('verse']) {
+    if(check_var('verse')) {
         $verses = check_var('verse');
     }
     $keyword = check_var('keyword');
