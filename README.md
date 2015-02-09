@@ -13,9 +13,9 @@ Usage
 |List All Books in the OT|?get_section=OT
 |List All Books in the NT|?get_section=NT
 |List of Books|?get_books=1|
-|List of Chapters in a Book|?get_chapters&book=1|
-|List of Chapters in a Book with All Verse Data|?get_chapters&book=1&include_data=1|
-|List of Verses in a Book & Chapter|?get_verses&book=1&chapter=1|
+|List of Chapters in a Book|?get_chapters=1&book=1|
+|List of Chapters in a Book with All Verse Data|?get_chapters=1&book=1&include_data=1|
+|List of Verses in a Book & Chapter|?get_verses=1&book=1&chapter=1|
 
 
 |Lists of Specific Categories|Query String|

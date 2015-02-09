@@ -15,4 +15,7 @@
     $get_verses = check_var('get_verses');
     $include_data = check_var('include_data');
     $case_insensitive = check_var('insensitive');
+
+    $output = check_var('output');
+    $get_file = check_var('get_file');
 ?>
