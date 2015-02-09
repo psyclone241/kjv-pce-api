@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Kjv-pce-api by psyclone241</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Kjv-pce-api</h1>
+        <p>King James Version PCE API for Public Consumption</p>
+        <p class="view"><a href="https://github.com/psyclone241/kjv-pce-api">View the Project on GitHub <small>psyclone241/kjv-pce-api</small></a></p>
+        <ul>
+          <li><a href="https://github.com/psyclone241/kjv-pce-api/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/psyclone241/kjv-pce-api/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/psyclone241/kjv-pce-api">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="kjv-pce-api" class="anchor" href="#kjv-pce-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>kjv-pce-api</h1>
+
+<p>King James Version PCE API for Public Consumption</p>
+
+<h1>
+<a id="data" class="anchor" href="#data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data</h1>
+
+<p>The SQLite Database was made available from <a href="http://www.bibleprotector.com/KJV-PCE.db">http://www.bibleprotector.com/KJV-PCE.db</a></p>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<table>
+<thead>
+<tr>
+<th>Lists of Specific Groups</th>
+<th>Query String</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List All Books in the OT</td>
+<td>?get_section=OT</td>
+</tr>
+<tr>
+<td>List All Books in the NT</td>
+<td>?get_section=NT</td>
+</tr>
+<tr>
+<td>List of Books</td>
+<td>?get_books=1</td>
+</tr>
+<tr>
+<td>List of Chapters in a Book</td>
+<td>?get_chapters=1&amp;book=1</td>
+</tr>
+<tr>
+<td>List of Chapters in a Book with All Verse Data</td>
+<td>?get_chapters=1&amp;book=1&amp;include_data=1</td>
+</tr>
+<tr>
+<td>List of Verses in a Book &amp; Chapter</td>
+<td>?get_verses=1&amp;book=1&amp;chapter=1</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Lists of Specific Categories</th>
+<th>Query String</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List Complete Section</td>
+<td>?section=OT or ?section=NT</td>
+</tr>
+<tr>
+<td>List Complete Book</td>
+<td>?book=1</td>
+</tr>
+<tr>
+<td>List Complete Chapter</td>
+<td>?book=1&amp;chapter=1</td>
+</tr>
+<tr>
+<td>List Single Verse</td>
+<td>?book=1&amp;chapter=1&amp;verses=1</td>
+</tr>
+<tr>
+<td>List Range of Verses</td>
+<td>?book=1&amp;chapter=1&amp;verses=1-5</td>
+</tr>
+<tr>
+<td>List Specific Group of Verses</td>
+<td>?book=1&amp;chapter=1&amp;verses=1,3,5</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>All searches can be narrowed down by book, chapter, and verses</th>
+<th>Query String</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Search for Specific Keyword is Contained in Text</td>
+<td>?keyword=keyword&amp;match=contains</td>
+</tr>
+<tr>
+<td>Search for Specific Keyword Where Text Starts With Text</td>
+<td>?keyword=keyword&amp;match=startswith</td>
+</tr>
+<tr>
+<td>Search for Specific Keyword Where Text Ends With Text</td>
+<td>?keyword=keyword&amp;match=endswith</td>
+</tr>
+<tr>
+<td>Search for Specific Keyword Where Text is an Exact Match in Text</td>
+<td>?keyword=keyword&amp;match=exact</td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="parameters--possible-values" class="anchor" href="#parameters--possible-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters &amp; Possible Values</h1>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Possible Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>output</td>
+<td>str('csv'), str('xml'), or str('json') -&gt; Defaults to json if nothing selected, or the requested format is not supported</td>
+</tr>
+<tr>
+<td>section</td>
+<td>str('OT') or str('NT') -&gt; Used individually or in conjunction with keyword, book, chapter, verses</td>
+</tr>
+<tr>
+<td>book</td>
+<td>int(BookID), str(BookName), str(BookAbr) -&gt; Used individually or in conjunction with keyword, section, chapter, verses</td>
+</tr>
+<tr>
+<td>chapter</td>
+<td>int(Chapter) -&gt; Used individually or in conjunction with keyword, section, book, verses</td>
+</tr>
+<tr>
+<td>verse or verses</td>
+<td>int(x), int(x)-int(y), int(a),int(c), int(d) -&gt; Used individually or in conjunction with keyword, section, book, chapter</td>
+</tr>
+<tr>
+<td>keyword</td>
+<td>str('string') -&gt; Requires (match), used in conjunction with section, book, chapter, and/or verses</td>
+</tr>
+<tr>
+<td>match</td>
+<td>str('contains'), str('startswith'), str('endswith'), str('exact') -&gt; Used in conjunction with keyword</td>
+</tr>
+<tr>
+<td>get_section</td>
+<td>str('OT') or str('NT')</td>
+</tr>
+<tr>
+<td>get_books</td>
+<td>boolean -&gt; Requires (book)</td>
+</tr>
+<tr>
+<td>get_chapters</td>
+<td>boolean -&gt; Requires (book, chapter)</td>
+</tr>
+<tr>
+<td>get_verses</td>
+<td>boolean -&gt; Requires (book, chapter, verses)</td>
+</tr>
+<tr>
+<td>include_data</td>
+<td>boolean -&gt; Used in conjunction with get_* parameters</td>
+</tr>
+<tr>
+<td>insensitive</td>
+<td>boolean -&gt; Sets the whole query to case insensitive, case sensitive is the default</td>
+</tr>
+<tr>
+<td>get_file</td>
+<td>boolean -&gt; Returns the CSV output format in a downloaded file</td>
+</tr>
+</tbody>
+</table>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/psyclone241">psyclone241</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
