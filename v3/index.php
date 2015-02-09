@@ -195,6 +195,7 @@
             $data = array();
             $data['query'] = $query;
             $data['result_count'] = 0;
+            $data['columns'] = '';
             $data['results'] = array();
 
             $result = $db->query($query) or die(print(json_encode($data)));
