@@ -1,7 +1,7 @@
 <?php
-    include('../api_settings.php');
-    include('../functions.php');
-    include('../get_vars.php');
+    include('api_settings.php');
+    include('functions.php');
+    include('get_vars.php');
 
     if(array_search($key, $_api_keys)) {
         $db = new SQLite3($_db);
