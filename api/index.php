@@ -222,6 +222,7 @@
             }
 
             if($output == 'xml') {
+                
                 $xmlstr = "<?xml version='1.0' encoding='UTF-8'?>\n<data></data>";
                 $xml = new SimpleXMLElement($xmlstr);
                 $xml->addChild('Query',$data['Query']);
@@ -230,7 +231,9 @@
                 $node = $xml->addChild('Results');
                 array_to_xml($data['Results'], $node);
                 print($xml->asXML());
+
             } elseif ($output == 'csv') {
+
                 if($get_file) {
                     header("Content-Type: text/csv");
                     header('Content-disposition: attachment;filename=kjv_output.csv');                    
@@ -242,10 +245,13 @@
                     fputcsv($fp, $row, ",");
                 }
                 fclose($fp);
+
             }else {
+
                 header('Content-Type: application/json');
                 $json = json_encode($data);
                 print($json);
+
             }
 
         } catch(Exception $exception) {
