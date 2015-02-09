@@ -238,7 +238,7 @@
                 $headers = explode(',', $data['columns']);
                 $fp = fopen("php://output", "w");
                 fputcsv ($fp, $headers, ",");
-                foreach($data['results'] as $row){
+                foreach($data['Entries'] as $row){
                     fputcsv($fp, $row, ",");
                 }
                 fclose($fp);

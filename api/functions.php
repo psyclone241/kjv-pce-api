@@ -10,7 +10,7 @@
 	                $subnode = $xml->addChild("$key");
 	                array_to_xml($value, $subnode);
 	            } else {
-	            	$subnode = $xml->addChild("entry id='" . $key . "'");
+	            	$subnode = $xml->addChild("Entry");
 	                array_to_xml($value, $subnode);
 	            }
 	        } else {
