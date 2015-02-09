@@ -38,6 +38,7 @@ Parameters & Possible Values
 =====================================================================================
 |Parameter|Possible Value|
 |------------------------|----------------------------------------------------------|
+|output|str('csv'), str('xml'), or str('json') -> Defaults to json if nothing selected, or the requested format is not supported
 |section|str('OT') or str('NT') -> Used individually or in conjunction with keyword, book, chapter, verses|
 |book|int(BookID), str(BookName), str(BookAbr) -> Used individually or in conjunction with keyword, section, chapter, verses|
 |chapter|int(Chapter) -> Used individually or in conjunction with keyword, section, book, verses|
@@ -50,3 +51,4 @@ Parameters & Possible Values
 |get_verses|boolean -> Requires (book, chapter, verses)|
 |include_data|boolean -> Used in conjunction with get_* parameters|
 |insensitive|boolean -> Sets the whole query to case insensitive, case sensitive is the default|
+|get_file|boolean -> Returns the CSV output format in a downloaded file
