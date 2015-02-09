@@ -193,10 +193,10 @@
 
         try {
             $data = array();
-            $data['query'] = $query;
-            $data['result_count'] = 0;
-            $data['columns'] = '';
-            $data['results'] = array();
+            $data['Query'] = $query;
+            $data['Result_Count'] = 0;
+            $data['Columns'] = '';
+            $data['Results'] = array();
 
             $result = $db->query($query) or die(print(json_encode($data)));
             if(count($result) > 0) {
@@ -216,19 +216,19 @@
                     $row_count++;
                 }
 
-                $data['columns'] = $columns;
-                $data['result_count'] = count($new_data);
-                $data['results'] = $new_data;
+                $data['Columns'] = $columns;
+                $data['Result_Count'] = count($new_data);
+                $data['Results'] = $new_data;
             }
 
             if($output == 'xml') {
                 $xmlstr = "<?xml version='1.0' encoding='UTF-8'?>\n<data></data>";
                 $xml = new SimpleXMLElement($xmlstr);
-                $xml->addChild('query',$data['query']);
-                $xml->addChild('result_count',$data['result_count']);
-                $xml->addChild('columns', $data['columns']);
-                $node = $xml->addChild('results');
-                array_to_xml($data['results'], $node);
+                $xml->addChild('Query',$data['Query']);
+                $xml->addChild('Result_Count',$data['Result_Count']);
+                $xml->addChild('Columns', $data['Columns']);
+                $node = $xml->addChild('Results');
+                array_to_xml($data['Results'], $node);
                 print($xml->asXML());
             } elseif ($output == 'csv') {
                 if($get_file) {
