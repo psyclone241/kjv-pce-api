@@ -3,4 +3,4 @@
 
     * This note was made on 15 March 2016, I hope to be completed in late April of 2016
 
-    * Original README linked [here](https://github.com/psyclone241/kjv-pce-api/blob/master/README.md)
+    * Original README (https://github.com/psyclone241/kjv-pce-api/blob/master/README-current.md)
