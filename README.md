@@ -1,6 +1,6 @@
 # kjv-pce-api
-    * I will be updating this repository with a new PHP version as well as a totally new Python-Flask version of the API.
 
-    * This note was made on 15 March 2016, I hope to be completed in late April of 2016
+* For the original PHP api, checkout the branch named 'minimal-php'
+* For the new python-flask api, checkout the branch named 'python-flask'
 
-    * Original README [linked here](https://github.com/psyclone241/kjv-pce-api/blob/master/README-current.md)
+This note was made on 15 March 2016, I hope to be completed in late April of 2016
