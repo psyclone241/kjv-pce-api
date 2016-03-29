@@ -1,6 +1,0 @@
-<?php
-	$_db = '_some_file_.db';
-	$_api_keys = array(
-		1 => '_enter_key_her'
-	);
-?>
