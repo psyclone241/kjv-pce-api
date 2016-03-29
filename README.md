@@ -11,6 +11,9 @@
 * Refer to INSTALL.md for installation and setup instructions
 
 ### Usage
+* Run the service
+  * `make serve`
+* All following commands are prefaced with http://your_host_name:your_port
 * Get Sections (NT/OT)
   * List All Books in the OT
     * /bible/get_section/OT
