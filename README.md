@@ -18,6 +18,7 @@ that I followed and it worked well [Deploy Flask to Apache](https://www.digitalo
     * `sudo a2enmod wsgi`
   * You must pip install all the modules listed in [setup.sh](setup.sh)
   * You must create and enable an apache conf file for your site to enable wsgi
+  * Modify the flaskapp.wsgi file to show your installed /var/www/directory
 
 ### Usage
 * Run the service
