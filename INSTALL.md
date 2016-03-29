@@ -2,8 +2,18 @@
 
 ## TODO Items
 * Add database install and setup scripts
+* Make the Apache setup instructions more automated/detailed
 
-## Auto Setup
+## Apache Setup
+* I followed the documentation on DigitalOcean, [Deploy Flask to Apache](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps).
+  * You must acquire and enable the apache mod wsgi
+    * `sudo apt-get install libapache2-mod-wsgi python-dev`
+    * `sudo a2enmod wsgi`
+  * You must pip install all the modules listed in [setup.sh](setup.sh)
+  * You must create and enable an apache conf file for your site to enable wsgi
+  * Modify the flaskapp.wsgi file to show your installed /var/www/directory
+
+## Local Development Server Auto Setup
 * Run the automatic setup script
   * `make setup` or
   * `bash setup.sh`

@@ -11,14 +11,7 @@
 * Refer to [INSTALL.md](INSTALL.md) for installation and setup instructions
 
 ### TODO List
-* Write documentation for install on Apache.  As it is, there is a document on DigitalOcean
-that I followed and it worked well [Deploy Flask to Apache](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps).
-  * You must acquire and enable the apache mod wsgi
-    * `sudo apt-get install libapache2-mod-wsgi python-dev`
-    * `sudo a2enmod wsgi`
-  * You must pip install all the modules listed in [setup.sh](setup.sh)
-  * You must create and enable an apache conf file for your site to enable wsgi
-  * Modify the flaskapp.wsgi file to show your installed /var/www/directory
+* Add Strongs and some detailed concordance texts
 
 ### Usage
 * Run the service
