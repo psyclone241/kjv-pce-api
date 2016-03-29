@@ -1,7 +1,16 @@
 # Steps for Setup
 
+## TODO Items
+* Add database install and setup scripts
+
+## Auto Setup
+* Run the automatic setup script
+  * `make setup` or
+  * `bash setup.sh`
+
 ## Make a Config File
-* Copy the config.example.py file to config.py
+* Copy the example config
+  * `cp config.example.py file config.py`
 * Open config.py in the editor of your choice and modify the following settings
   * DEBUG -> Debugging State
   * DB -> Type of Datbase (mysql or sqlite)
@@ -26,6 +35,3 @@
 * `venv/bin/pip install flask-sqlalchemy`
 * `venv/bin/pip install flask-marshmallow`
 * `venv/bin/pip install marshmallow-sqlalchemy`
-
-## TODO Items
-* Add database install and setup scripts

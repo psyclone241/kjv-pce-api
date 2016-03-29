@@ -7,6 +7,9 @@
 * The SQLite Database at data/kjv-pce-v2.db has column name modifications from the original
 * The MySQL Database Dump was built from the above SQLite Database
 
+### Setup
+* Refer to INSTALL.md for installation and setup instructions
+
 ### Usage
 * Get Sections (NT/OT)
   * List All Books in the OT
