@@ -35,6 +35,8 @@
 * Create a database on your host called 'mlt_bible'
 * Import the data from data/kjv-pce-v2.sql
 * Set DB='mysql' in config.py
+* If you are using the MySQL setup, `pip install mysql-python`
+* You may need this for mysql-python, `sudo apt-get install python-dev libmysqlclient-dev`
 
 ## SQLite Database Setup
 * No setup is required for SQLite, just set DB='sqlite' in config.py
