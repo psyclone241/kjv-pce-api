@@ -25,7 +25,10 @@ tools = MLTTools()
 @app.errorhandler(404)
 def not_found(error):
     return tools.makeResponse(results=None, errors=True, message='Invalid Route')
-    # return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return tools.makeResponse(results=None, errors=True, message='Internal Error')
 
 # Import a module / component using its blueprint handler variable
 from app.mod_bible.controllers import mod_bible as bible_module
@@ -46,6 +49,7 @@ def after_request(response):
 
 # Build the database:
 # This will create the database file using SQLAlchemy
+# TODO: This needs to be added to a manage.py script for MySQL installs
 # db.create_all()
 if __name__ == "__main__":
     app.run()
