@@ -33,7 +33,7 @@
     * /bible/lookup/1/1/1-5
   * List Specific Group of Verses
     * /bible/lookup/1/1/1,3,5
-* Keyword Searches (can be narrowed down by book, chapter, and verses, same format as lookup)
+* Keyword Searches (can be narrowed down by book, chapter, and verses, same format as lookup, just add /book/chapter/verse)
   * Search for Specific Keyword is Contained in Text
     * /bible/keyword/contains/word
   * Search for Specific Keyword Where Text Starts With Text
