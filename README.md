@@ -12,6 +12,7 @@
 
 ### TODO List
 * Add Strongs and some detailed concordance texts
+* Add more/thorough testing to the run_tests.py suite
 
 ### Usage
 * Run the service
@@ -51,3 +52,8 @@
     * /bible/keyword/endswith/word
   * Search for Specific Keyword Where Text is an Exact Match in Text
     * /bible/keyword/exact/word
+
+### Testing
+* Run the test suite
+  * `make test` or
+  * `python run_tests.py`

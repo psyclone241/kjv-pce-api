@@ -6,9 +6,13 @@ help:
 	@echo "Available tasks :"
 	@echo "\tsetup - setup the application"
 	@echo "\tserve - start the server instance"
+	@echo "\ttest - run the basic testing suite"
 
 setup:
 	@bash setup.sh
-	
+
 serve:
 	@venv/bin/python run.py
+
+test:
+	@venv/bin/python run_tests.py
