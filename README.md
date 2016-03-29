@@ -8,7 +8,7 @@
 * The MySQL Database Dump was built from the above SQLite Database
 
 ### Setup
-* Refer to INSTALL.md for installation and setup instructions
+* Refer to [INSTALL.md](INSTALL.md) for installation and setup instructions
 
 ### Usage
 * Run the service
