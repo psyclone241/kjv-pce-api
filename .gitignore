@@ -1,3 +1,6 @@
 venv/
 config.py
 *.pyc
+data/mod_metav/
+dev_work/
+app/static/resources/bower_components/
