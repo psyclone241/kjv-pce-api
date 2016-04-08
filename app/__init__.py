@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Import flask and template operators
 from flask import Flask, render_template
+import flask.views
 
 # Import SQLAlchemy
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -18,8 +19,11 @@ import config as config
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
+# Setup the MLTTools library for use by this and controllers
 from tools.utilities import MLTTools
 tools = MLTTools()
+# Define the default methods for the routes
+default_methods = ['GET', 'POST']
 
 # Sample HTTP error handling
 @app.errorhandler(404)
@@ -33,9 +37,13 @@ def internal_error(error):
 # Import a module / component using its blueprint handler variable
 from app.mod_bible.controllers import mod_bible as bible_module
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=default_methods)
 def root():
-    return render_template('ReadMe.html'), 200
+    return render_template('main.html'), 200
+
+@app.route('/readme', methods=default_methods)
+def readMe():
+    return render_template('readme.html'), 200
 
 # Register blueprint(s)
 app.register_blueprint(bible_module)
