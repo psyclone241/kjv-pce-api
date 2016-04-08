@@ -5,7 +5,7 @@ VENV=$1
 cp config.example.py config.py
 cp app/static/mod_bible/config.example.js app/static/mod_bible/config.js
 
-if [ ! -z "${VENV}"];
+if [ ! -z "${VENV}" ];
 then
   virtualenv venv
   
