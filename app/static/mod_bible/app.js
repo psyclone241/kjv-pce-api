@@ -20,14 +20,14 @@ angular
       };
 
       $scope.getBooks = function() {
-        HTTPService.get('http://192.168.1.13:9100/bible/get_books/').then(function (data) {
+        HTTPService.get(config.api_url + 'get_books/').then(function (data) {
           $scope.data.books = data.data.results;
         });
       };
 
       $scope.getChapters = function(book_id) {
         if(book_id) {
-          var data = HTTPService.get('http://192.168.1.13:9100/bible/get_chapters/' + book_id + '/verses').then(function (data) {
+          var data = HTTPService.get(config.api_url + 'get_chapters/' + book_id + '/verses').then(function (data) {
             return data;
           });
           return data;
@@ -38,7 +38,7 @@ angular
 
       $scope.getChapter = function(book_id, chapter_id, verse_id) {
         if(book_id) {
-          var data = HTTPService.get('http://192.168.1.13:9100/bible/lookup/' + book_id + '/' + chapter_id + '/' + verse_id).then(function (data) {
+          var data = HTTPService.get(config.api_url + 'lookup/' + book_id + '/' + chapter_id + '/' + verse_id).then(function (data) {
             return data;
           });
           return data;
