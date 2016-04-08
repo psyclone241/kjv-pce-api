@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Import flask dependencies
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
+import flask.views
 
 # Import SQLAlchemy libraries
 from sqlalchemy import or_
@@ -21,11 +22,10 @@ elif config.DB == 'mysql':
 # Get some shared methods that the app can use for various things
 # like printing json back to the browser
 from app import tools
+from app import default_methods
 
 # Define the blueprint: 'bible', set its url prefix: app.url/bible
 mod_bible = Blueprint('bible', __name__, url_prefix='/bible')
-# Define the default methods for the routes
-default_methods = ['GET', 'POST']
 
 # Make a BibleSchema accessible to all routes
 def set_schema(only_columns=None, many=False):
@@ -36,7 +36,11 @@ def set_schema(only_columns=None, many=False):
 
 @mod_bible.route('/', methods=default_methods)
 def root():
-    return render_template('bible/ReadMe.html'), 200
+    return render_template('mod_bible/main.html'), 200
+
+@mod_bible.route('/readme', methods=default_methods)
+def readMe():
+    return render_template('mod_bible/readme.html'), 200
 
 @mod_bible.route('/keyword/<method>/<text>', methods=default_methods)
 @mod_bible.route('/keyword/<method>/', methods=default_methods)
@@ -174,7 +178,14 @@ def get_chapters(book=None):
                 data = Bible.query.with_entities(func.count(Bible.verse_id).label('verse_id'), Bible.chapter_id).filter(Bible.book_id==book_data['results']['book_id']).group_by(Bible.chapter_id).all()
                 results = bible_schema.dump(data)
                 book_data['results']['chapters']['count'] = len(results.data)
-                book_data['results']['chapters']['verses'] = results.data
+                book_data['results']['verses'] = {}
+                book_data['results']['verses']['by_chapter'] = results.data
+
+                total_verse_count = 0
+                for line in results.data:
+                    total_verse_count += int(line['verse_id'])
+
+                book_data['results']['verses']['count'] = total_verse_count
                 book_data['message'] += ', with chapter count and details'
             else:
                 data = Bible.query.with_entities(Bible.chapter_id).filter(Bible.book_id==book_data['results']['book_id']).group_by(Bible.chapter_id).count()
