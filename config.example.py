@@ -10,7 +10,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # Define the database - we are working with
 DB = 'sqlite'
 # DB = 'mysql'
-SQLALCHEMY_DATABASE_URI = DB + ':///' + os.path.join(BASE_DIR, 'data/kjv-pce-v2.db')
+SQLALCHEMY_DATABASE_URI = DB + ':///' + os.path.join(BASE_DIR, 'data/mod_bible/kjv-pce-v2.db')
 # SQLALCHEMY_DATABASE_URI = DB + '://user:password@localhost/mlt_bible'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
