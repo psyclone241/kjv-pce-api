@@ -1,0 +1,16 @@
+{
+  "name": "kjv-pce-api-v2",
+  "homepage": "https://github.com/psyclone241/kjv-pce-api",
+  "authors": [
+    "Roy Keyes <keyes.roy@gmail.com>"
+  ],
+  "description": "King James Version - Pre-Cambridge Edition API v2",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.5.3",
+    "bootstrap": "~3.3.6",
+    "angular-route": "~1.5.3"
+  }
+}
