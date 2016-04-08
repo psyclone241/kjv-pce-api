@@ -2,6 +2,9 @@
 
 ## King James Version PCE API for Public Consumption
 
+### Old Versions
+* For the original PHP api, checkout the branch named '[minimal-php](https://github.com/psyclone241/kjv-pce-api/tree/minimal-php)'
+
 ### Data
 * The SQLite Database was made available from http://www.bibleprotector.com/KJV-PCE.db
 * The SQLite Database at data/kjv-pce-v2.db has column name modifications from the original
