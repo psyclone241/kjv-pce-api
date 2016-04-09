@@ -1,8 +1,15 @@
 #!!/usr/bin/env python
 import os
+import sys
 import unittest
 
+config_path = os.path.join('..','..')
+app_path = os.path.join('..', '..', 'app')
+
+sys.path.append(config_path)
 import config
+
+sys.path.append(app_path)
 from app import app, db
 from app.mod_bible.models.sqlite import Bible
 from app.mod_bible.models.sqlite import BibleSchema

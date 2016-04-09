@@ -9,11 +9,16 @@
   * You must acquire and enable the apache mod wsgi
     * `sudo apt-get install libapache2-mod-wsgi python-dev`
     * `sudo a2enmod wsgi`
-  * You must pip install all the modules listed in [setup.sh](setup.sh)
+  * You must pip install all the modules listed in [requirements.txt](requirements.txt)
   * You must create and enable an apache conf file for your site to enable wsgi
+  * Copy flaskapp.example.wsgi to flaskapp.wsgi
+    * `cp flaskapp.example.wsgi flaskapp.wsgi`
   * Modify the flaskapp.wsgi file to show your installed /var/www/directory
 
-## Make a Config File
+## Local Python Server Setup
+* You can run `make servelocal`
+
+## Make the Config Files
 * Run `make copyconfig`
   * You can run the copy of these files manually by doing:
     * `cp config.example.py file config.py`
@@ -42,9 +47,10 @@
 * No setup is required for SQLite, just set DB='sqlite' in config.py
 
 ## Flask Application Setup
-* You can run `make venv`
+* You can run `make venvsetup`
   * Manual command: `virtualenv venv`
 * Install the requirements in your new venv or production instance
+  * You can run `make venvrequire`
   * Manual venv command: `venv/bin/pip install -r requirements.txt`
   * Manual prod command: `pip install -r requirements.txt`
 * The following libraries are installed with their dependencies

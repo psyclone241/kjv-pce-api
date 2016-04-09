@@ -6,29 +6,29 @@ help:
 	@echo "Available tasks :"
 	@echo "\tcopyconfig - copy the available config files"
 	@echo "\tloadbower - load bower_components for the angular app"
-	@echo "\tvenv - setup the venv for the application"
+	@echo "\tvenvsetup - setup the venv for the application"
 	@echo "\tvenvrequire - install requirements in venv"
 	@echo "\tinstallrequire - install requirements for production server"
-	@echo "\tserve - start the server instance"
+	@echo "\tservelocal - start the server instance"
 	@echo "\ttestflask - run the basic testing suite for the flask app"
 
 copyconfig:
-	@bash copy_configs.sh
+	@bash scripts/copyconfigs.sh
 
 loadbower:
-	@bower install
+	@bash scripts/loadbower.sh
 
-venv:
-	@bash setup_venv.sh venv
+venvsetup:
+	@bash scripts/setupvenv.sh venv
 
 venvrequire:
-	@bash setup_venv.sh require
+	@bash scripts/setupvenv.sh requirements
 
 installrequire:
 	@pip install -r requirements.txt
 
-serve:
-	@venv/bin/python serve_local.py
+servelocal:
+	@bash scripts/servelocal.sh
 
 testflask:
-	@venv/bin/python run_python_tests.py
+	@bash scripts/testflask.sh
