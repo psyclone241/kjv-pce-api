@@ -27,7 +27,7 @@ angular
         controllerAs: 'main',
         reloadOnSearch: false,
       })
-      .when('/lookup', {
+      .when('/lookup/:ref_id?', {
         templateUrl: '../static/mod_bible/views/lookup.html',
         controller: 'LookupController',
         controllerAs: 'lookup',

@@ -6,6 +6,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   var data_url = $scope.config.restUrl;
 
+  $scope.ref_id = null;
   $anchorScroll.yOffset = 60;
   $scope.column_width = '40%';
   $scope.hideSelector = false;
@@ -25,14 +26,33 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     }
   };
 
-  $scope.getBooks = function() {
+  $scope.getBooks = function(ref_id) {
     HTTPService.get(data_url + 'get_books/').then(function (data) {
       $scope.data.books = data.results;
+      if(ref_id) {
+        console.log('Lookup up a particular reference');
+        $scope.ref_id = ref_id;
+        var matched_book = null;
+        angular.forEach($scope.data.books, function(value, key) {
+          if((value.book_abbr==ref_id) || (value.book_name==ref_id) || (value.book_id==ref_id)) {
+            matched_book = value;
+          }
+        });
+
+        if(matched_book) {
+          // console.log(matched_book);
+          $scope.data.selected_book = matched_book;
+          $scope.selectBook();
+        } else {
+          console.log('No match found');
+        }
+      }
     });
   };
 
   $scope.selectBook = function() {
     if($scope.data.selected_book) {
+      console.log('Getting chapters');
       HTTPService.get(data_url + 'get_chapters/' + $scope.data.selected_book.book_id + '/verses').then(function (data) {
         $scope.data.selected_book = data.results;
         var chapter_range = []
@@ -124,6 +144,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     $scope.hideSelector = false;
   };
 
-  $scope.getBooks();
+  $scope.getBooks($routeParams.ref_id);
 }
 );
