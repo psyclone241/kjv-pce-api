@@ -1,17 +1,34 @@
 angular
-  .module('KJVPCE-Bible', ['ngRoute', 'http-service', 'log-service'])
-  .config(['$routeProvider', function($routeProvider, HTTPService, LogService) {
+  .module('KJVPCE-Bible', ['ngRoute', 'ui.bootstrap', 'http-service', 'log-service'])
+  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider, HTTPService, LogService) {
     $routeProvider
       .when('/', {
-          templateUrl: '../static/mod_bible/main.html',
-          controller: 'MainController'
+        templateUrl: '../static/mod_bible/main.html',
+        controller: 'MainController',
+        reloadOnSearch: false,
+      })
+      .when('/lookup', {
+        templateUrl: '../static/mod_bible/lookup.html',
+        controller: 'LookupController',
+        reloadOnSearch: false,
       })
       .otherwise({ redirectTo: '/' });
+
+      // $locationProvider.html5Mode({enabled: true, requireBase: false});
   }])
-  .controller('MainController', [
-    '$scope',
-    '$http',
-    function($scope, HTTPService) {
+  .run(function($rootScope, $routeParams) {
+  })
+  .controller('MainController',
+    function($scope, $http, HTTPService, LogService) {
+      var objectName = 'controllers.mod_bible.MainController';
+  })
+  .controller('LookupController',
+    function($scope, $http, $anchorScroll, $location, HTTPService, LogService) {
+      var objectName = 'controllers.mod_bible.LookupController';
+      $anchorScroll.yOffset = 60;
+      $scope.column_width = '40%';
+      $scope.hideSelector = false;
+
       $scope.data = {
         'books': [],
         'selected_book': null,
@@ -19,52 +36,39 @@ angular
         'verse_range': null,
       };
 
+      $scope.collapseSelector = function() {
+        if($scope.hideSelector) {
+          $scope.hideSelector = false;
+        } else {
+          $scope.hideSelector = true;
+        }
+      };
+
       $scope.getBooks = function() {
         HTTPService.get(config.api_url + 'get_books/').then(function (data) {
-          $scope.data.books = data.data.results;
+          $scope.data.books = data.results;
         });
-      };
-
-      $scope.getChapters = function(book_id) {
-        if(book_id) {
-          var data = HTTPService.get(config.api_url + 'get_chapters/' + book_id + '/verses').then(function (data) {
-            return data;
-          });
-          return data;
-        } else {
-          return null;
-        }
-      };
-
-      $scope.getChapter = function(book_id, chapter_id, verse_id) {
-        if(book_id) {
-          var data = HTTPService.get(config.api_url + 'lookup/' + book_id + '/' + chapter_id + '/' + verse_id).then(function (data) {
-            return data;
-          });
-          return data;
-        } else {
-          return null;
-        }
       };
 
       $scope.selectBook = function() {
         if($scope.data.selected_book) {
-          $scope.getChapters($scope.data.selected_book.book_id).then(function (data) {
-            $scope.data.selected_book = data.data.results;
-
+          HTTPService.get(config.api_url + 'get_chapters/' + $scope.data.selected_book.book_id + '/verses').then(function (data) {
+            $scope.data.selected_book = data.results;
             var chapter_range = []
-            var chapter_max = data.data.results.chapters.count;
+            var chapter_max = data.results.chapters.count;
             for(var i=1; i<=chapter_max; i++) {
               chapter_range.push(i);
             }
             $scope.data.chapter_range = chapter_range;
           });
+          $scope.setAnchorScroll('chapter_select');
         } else {
           console.log('Nothing selected');
         }
       };
 
       $scope.openChapter = function(chapter_id) {
+        console.log(chapter_id);
         var selected_chapter = null;
         angular.forEach($scope.data.selected_book.verses.by_chapter, function(value, key) {
           if(value.chapter_id == chapter_id) {
@@ -81,17 +85,54 @@ angular
           }
           $scope.data.verse_range = verse_range;
         }
+
+        $scope.setAnchorScroll('verse_select');
       };
 
-      $scope.openVerse = function(verse) {
-        $scope.data.selected_book.selected_verse = verse;
-        console.log($scope.data.selected_book);
-
-        $scope.getChapter($scope.data.selected_book.book_id, $scope.data.selected_book.selected_chapter.chapter_id, $scope.data.selected_book.selected_verse).then(function (data) {
-          $scope.data.selected_book.text = data.data.results;
+      $scope.openVerse = function(verse_id) {
+        HTTPService.get(config.api_url + 'lookup/' + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id).then(function (data) {
+          $scope.data.selected_book.text = data.results;
+          $scope.scrollToVerse(verse_id);
+          console.log($scope.data.selected_book);
         });
       }
 
+      $scope.scrollToVerse = function(verse_id) {
+        $scope.data.selected_book.selected_verse = verse_id;
+        var scroll_to_verse_id = '';
+        angular.forEach($scope.data.selected_book.text, function(value, key) {
+          if(value.verse_id == verse_id) {
+            scroll_to_verse_id = value.id;
+          }
+        });
+
+        $scope.hideSelector = true;
+
+        scroll_target = 'anchor_' + scroll_to_verse_id;
+        $scope.setAnchorScroll(scroll_target);
+      }
+
+      $scope.setAnchorScroll = function(scroll_target) {
+        $location.hash(scroll_target);
+        $location.path('/lookup');
+        $anchorScroll();
+      }
+
+      $scope.unsetChapter = function() {
+        $scope.data.selected_book.selected_chapter = null;
+        $scope.unsetVerse();
+      }
+
+      $scope.unsetVerse = function() {
+        $scope.data.selected_book.selected_verse = null;
+      }
+
+      $scope.scrollToTopVerse = function() {
+        $scope.scrollToVerse(1);
+        $scope.setAnchorScroll('verse_select');
+        $scope.hideSelector = false;
+      };
+
       $scope.getBooks();
     }
-]);
+);

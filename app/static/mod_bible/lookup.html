@@ -1,0 +1,75 @@
+<div class="panel panel-primary">
+  <div class="panel-heading text-right" ng-click="collapseSelector()">
+    <div class="nav">
+      <div class="btn-group pull-left" data-toggle="buttons">
+        <h3 class="panel-title">Lookup</h3>
+      </div>
+      <button type="button" class="btn btn-sm btn-primary">
+        <span class="glyphicon" ng-class="hideSelector ? 'glyphicon-chevron-right' : 'glyphicon-chevron-down'" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  <ul class="list-group" uib-collapse="hideSelector">
+    <li class="list-group-item">
+      <select class="form-control" placeholder="Book" name="selected_book" id="selected_book" ng-options="book.book_name for book in data.books track by book.book_id" ng-model="data.selected_book" ng-change="selectBook()">
+        <option value="" selected disabled>Select a Book</option>
+      </select>
+    </li>
+    <li class="list-group-item" ng-if="data.selected_book.chapters && !data.selected_book.selected_verse && !data.selected_book.selected_chapter">
+      <strong>Chapters:</strong> {{data.selected_book.chapters.count}}
+    </li>
+    <li class="list-group-item" ng-if="data.selected_book.chapters && data.selected_book.selected_chapter">
+      <select class="form-control" name="selected_chapter" id="selected_chapter" ng-options="chapter for chapter in data.chapter_range track by chapter" ng-change="openChapter(data.selected_book.selected_chapter.chapter_id)" ng-model="data.selected_book.selected_chapter.chapter_id" ng-selected="data.selected_book.selected_chapter.chapter_id">
+        <option value="" selected disabled>Select a Chapter</option>
+      </select>
+    </li>
+    <li class="list-group-item" ng-if="data.selected_book.verses && !data.selected_book.selected_verse && !data.selected_book.selected_verse">
+      <strong>Verses:</strong>
+      <span ng-show="!data.selected_book.selected_chapter"> {{data.selected_book.verses.count}}</span>
+      <span ng-show="data.selected_book.selected_chapter">{{data.selected_book.selected_chapter.verse_id}}</span>
+    </li>
+    <li class="list-group-item" ng-if="data.selected_book.verses && data.selected_book.selected_verse">
+      <select class="form-control" name="selected_verse" id="selected_verse" ng-options="verse for verse in data.verse_range track by verse" ng-change="scrollToVerse(data.selected_book.selected_verse)" ng-model="data.selected_book.selected_verse"></select>
+    </li>
+    <li class="list-group-item" ng-if="data.selected_book.selected_verse || data.selected_book.selected_chapter">
+      <button type="button" class="btn btn-danger btn-xs" ng-click="unsetChapter()" ng-if="data.selected_book.chapters && data.selected_book.selected_chapter">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Reset Chapter
+      </button>
+      <button type="button" class="btn btn-danger btn-xs" ng-click="unsetVerse()" ng-if="data.selected_book.verses && data.selected_book.selected_verse">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Reset Verse
+      </button>
+    </li>
+  </ul>
+</div>
+<div class="well well-lg" ng-show="data.selected_book && data.chapter_range && !data.selected_book.selected_chapter">
+  <div class="container" id="chapter_select" class="anchor">
+    <strong>Select a Chapter:</strong>
+    <div ng-repeat="chapter in data.chapter_range">
+      <div ng-class="row">
+        <div class="col-xs-3">
+          <h3><span class="label label-primary" ng-click="openChapter(chapter)">{{chapter}}</span></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="well well-lg" ng-show="data.selected_book && data.verse_range && data.selected_book.selected_chapter && !data.selected_book.selected_verse">
+  <div class="container" id="verse_select" class="anchor">
+    <strong>Select a Verse:</strong>
+    <div ng-repeat="verse in data.verse_range">
+      <div ng-class="row">
+        <div class="col-xs-3">
+          <h3><span class="label label-success" ng-click="openVerse(verse)">{{verse}}</span></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="list-group" ng-if="data.selected_book.selected_verse && data.selected_book.text">
+  <div id="verse_block" class="anchor"></div>
+  <button ng-click="data.selected_book.selected_verse==verse.verse_id ? scrollToTopVerse() : openVerse(verse.verse_id)" type="button" class="list-group-item" ng-class="{ 'list-group-item-info': verse.verse_id==data.selected_book.selected_verse }" ng-repeat="verse in data.selected_book.text">
+    <div class="{{verse.class}}" id="anchor_{{verse.id}}" class="anchor">
+      <strong>{{verse.verse_id}}.</strong> {{verse.verse_text}}
+    </div>
+  </button>
+</div>
