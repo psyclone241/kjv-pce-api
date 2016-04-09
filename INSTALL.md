@@ -13,14 +13,11 @@
   * You must create and enable an apache conf file for your site to enable wsgi
   * Modify the flaskapp.wsgi file to show your installed /var/www/directory
 
-## Local Development Server Auto Setup
-* Run the automatic setup script
-  * `make setup` or
-  * `bash setup.sh`
-
 ## Make a Config File
-* Copy the example config
-  * `cp config.example.py file config.py`
+* Run `make copyconfig`
+  * You can run the copy of these files manually by doing:
+    * `cp config.example.py file config.py`
+    * `cp app/static/mod_bible/config/config.example.json app/static/mod_bible/config/config.json`
 * Open config.py in the editor of your choice and modify the following settings
   * DEBUG -> Debugging State
   * DB -> Type of Datbase (mysql or sqlite)
@@ -29,6 +26,9 @@
   * SECRET_KEY -> Key used for signing cookies
   * IP_ADDRESS -> IP Address for the service
   * PORT -> Port number for the service
+* Open app/static/mod_bible/config/config.json in the editor of your choice and modify the following settings
+  * mode.current -> Set this to development, staging, or production (these are configurable)
+  * restUrl -> Set the development, staging, or production instance restUrl to your IP_ADDRESS & PORT from above
 
 ## MySQL Database Setup
 * Install MySQL Server or load database file into a running instance
@@ -42,8 +42,13 @@
 * No setup is required for SQLite, just set DB='sqlite' in config.py
 
 ## Flask Application Setup
-* `virtualenv venv`
-* `venv/bin/pip install flask`
-* `venv/bin/pip install flask-sqlalchemy`
-* `venv/bin/pip install flask-marshmallow`
-* `venv/bin/pip install marshmallow-sqlalchemy`
+* You can run `make venv`
+  * Manual command: `virtualenv venv`
+* Install the requirements in your new venv or production instance
+  * Manual venv command: `venv/bin/pip install -r requirements.txt`
+  * Manual prod command: `pip install -r requirements.txt`
+* The following libraries are installed with their dependencies
+  * `venv/bin/pip install flask`
+  * `venv/bin/pip install flask-sqlalchemy`
+  * `venv/bin/pip install flask-marshmallow`
+  * `venv/bin/pip install marshmallow-sqlalchemy`

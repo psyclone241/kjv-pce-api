@@ -1,8 +1,8 @@
 angular.module('KJVPCE-Bible')
 .controller('LookupController',
 function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anchorScroll, $location) {
-  LogService.logEntry($route.current.controller, 'start', 'Initialize controller');
-  var objectName = 'controllers.mod_bible.LookupController';
+  var object_name = $route.current.controller;
+  LogService.logEntry(object_name, 'start', 'Initialize controller');
 
   var data_url = $scope.config.restUrl;
 

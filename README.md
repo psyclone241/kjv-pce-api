@@ -57,6 +57,7 @@
     * /bible/keyword/exact/word
 
 ### Testing
-* Run the test suite
-  * `make test` or
-  * `python run_tests.py`
+* Run the flask apps test suite
+  * `make testflask` or
+  * `python run_python_tests.py`
+* TODO: Build Angular application test suite with Karma

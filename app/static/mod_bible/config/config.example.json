@@ -1,0 +1,16 @@
+{
+  "mode": {
+    "current": "development"
+  },
+  "defaults": {
+  },
+  "development": {
+    "restUrl": "http://127.0.0.1:9100/bible/"
+  },
+  "staging": {
+    "restUrl": ""
+  },
+  "production": {
+    "restUrl": ""
+  }
+}
