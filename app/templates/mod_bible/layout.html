@@ -7,11 +7,12 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="shortcut icon" href="/static/mod_bible/images/logo_bible.ico">
+    <link rel="apple-touch-icon-precomposed" href="/static/mod_bibl/images/logo_bible.png">
 
     <title>KJV-PCE-API v2 - Bible Module</title>
 
-
+    <!-- Angular & Friends -->
     <script src="/static/resources/bower_components/angular/angular.min.js"></script>
     <script src="/static/resources/bower_components/angular-route/angular-route.min.js"></script>
     <script src="/static/resources/bower_components/angular-animate/angular-animate.min.js"></script>
@@ -20,18 +21,20 @@
     <!-- Angular UI Bootstrap -->
     <script src="/static/resources/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap Core CSS -->
     <link href="/static/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="/static/resources/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/static/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script src="/static/mod_bible/config.js"></script>
+    <!-- Application Scripts -->
     <script src="/static/resources/angular/services/log-service.js"></script>
     <script src="/static/resources/angular/services/http-service.js"></script>
     <script src="/static/mod_bible/app.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/main.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/lookup.js"></script>
 
     <!-- Custom styles for this template -->
-    <link href="/static/resources/css/mod_bible/style.css" rel="stylesheet">
+    <link href="/static/mod_bible/css/style.css" rel="stylesheet">
   </head>
 
   <body>
@@ -42,6 +45,8 @@
           <div class="navbar-header text-center">
             <a href="#/" class="navbar-brand">MLT Bible Module</a>
           </div>
+        </div>
+        <div class="container" ng-if="section_title">
         </div>
       </nav>
 

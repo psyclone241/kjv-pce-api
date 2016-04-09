@@ -39,11 +39,11 @@ from app.mod_bible.controllers import mod_bible as bible_module
 
 @app.route('/', methods=default_methods)
 def root():
-    return render_template('main.html'), 200
+    return render_template('root/main.html'), 200
 
 @app.route('/readme', methods=default_methods)
 def readMe():
-    return render_template('readme.html'), 200
+    return render_template('root/readme.html'), 200
 
 # Register blueprint(s)
 app.register_blueprint(bible_module)

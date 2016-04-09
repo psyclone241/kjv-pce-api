@@ -31,7 +31,10 @@
     <li class="list-group-item" ng-if="data.selected_book.verses && data.selected_book.selected_verse">
       <select class="form-control" name="selected_verse" id="selected_verse" ng-options="verse for verse in data.verse_range track by verse" ng-change="scrollToVerse(data.selected_book.selected_verse)" ng-model="data.selected_book.selected_verse"></select>
     </li>
-    <li class="list-group-item" ng-if="data.selected_book.selected_verse || data.selected_book.selected_chapter">
+    <li class="list-group-item text-center" ng-if="data.selected_book.selected_verse || data.selected_book.selected_chapter">
+      <button type="button" class="btn btn-danger btn-xs" ng-click="unsetBook()" ng-if="data.selected_book">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Reset Book
+      </button>
       <button type="button" class="btn btn-danger btn-xs" ng-click="unsetChapter()" ng-if="data.selected_book.chapters && data.selected_book.selected_chapter">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Reset Chapter
       </button>
