@@ -4,9 +4,9 @@
       <div class="btn-group pull-left" data-toggle="buttons">
         <h3 class="panel-title">Lookup</h3>
       </div>
-      <button type="button" class="btn btn-sm btn-primary">
+      <!-- <button type="button" class="btn btn-sm btn-primary">
         <span class="glyphicon" ng-class="hideSelector ? 'glyphicon-chevron-right' : 'glyphicon-chevron-down'" aria-hidden="true"></span>
-      </button>
+      </button> -->
     </div>
   </div>
   <ul class="list-group" uib-collapse="hideSelector">
@@ -45,7 +45,7 @@
   </ul>
 </div>
 <div class="well well-lg" ng-show="data.selected_book && data.chapter_range && !data.selected_book.selected_chapter">
-  <div class="container" id="chapter_select" class="anchor">
+  <div class="container">
     <strong>Select a Chapter:</strong>
     <div ng-repeat="chapter in data.chapter_range">
       <div ng-class="row">
@@ -57,7 +57,7 @@
   </div>
 </div>
 <div class="well well-lg" ng-show="data.selected_book && data.verse_range && data.selected_book.selected_chapter && !data.selected_book.selected_verse">
-  <div class="container" id="verse_select" class="anchor">
+  <div class="container">
     <strong>Select a Verse:</strong>
     <div ng-repeat="verse in data.verse_range">
       <div ng-class="row">
@@ -68,11 +68,24 @@
     </div>
   </div>
 </div>
-<div class="list-group" ng-if="data.selected_book.selected_verse && data.selected_book.text">
+
+
+<div ng-if="data.selected_book.selected_verse && data.selected_book.text">
   <div id="verse_block" class="anchor"></div>
-  <button ng-click="data.selected_book.selected_verse==verse.verse_id ? scrollToTopVerse() : openVerse(verse.verse_id)" type="button" class="list-group-item" ng-class="{ 'list-group-item-info': verse.verse_id==data.selected_book.selected_verse }" ng-repeat="verse in data.selected_book.text">
-    <div class="{{verse.class}}" id="anchor_{{verse.id}}" class="anchor">
-      <strong>{{verse.verse_id}}.</strong> {{verse.verse_text}}
-    </div>
-  </button>
+  <table class="table table-condensed">
+    <tr
+      ng-repeat="verse in data.selected_book.text"
+      ng-class="{ 'list-group-item-info': verse.verse_id==data.selected_book.selected_verse }">
+      <td class="lead" width="90%" ng-click="data.selected_book.selected_verse==verse.verse_id ? scrollToTopVerse() : openVerse(verse.verse_id)">
+        <div class="{{verse.class}}" id="anchor_{{verse.id}}" class="anchor">
+          <strong>{{verse.verse_id}}.</strong> {{verse.verse_text}}
+        </div>
+      </td>
+      <td class="text-center vert-align">
+        <button type="button" class="btn btn-transparent btn-lg" context-menu="verse_menu_options" model="'{{verse.id}}'">
+          <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
 </div>

@@ -13,8 +13,22 @@ html {
 }
 
 body {
+  -webkit-touch-callout: none !important;
   height: 100%;
-  padding-top: 30px;
+}
+
+.table tbody>tr>td.vert-align{
+    vertical-align: middle;
+}
+
+.pressable-element {
+  cursor: pointer;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
 }
 
 /* Wrapper for page content to push down footer */
@@ -52,17 +66,23 @@ body {
   min-height: 40px !important;
 }
 
-.navbar-header {
+.navbar-lower {
+  padding-top: 12px;
+  padding-left: 1px;
+  width: 100%;
+}
+
+/*.navbar-header {
  	float:none;
     width:100%;
     padding:10px;
-}
+}*/
 
-.navbar-brand {
+/*.navbar-brand {
     font-size:18pt;
     font-weight: bold;
     float:none;
-}
+}*/
 
 #bottomNav {
 	padding:10px;
@@ -82,7 +102,7 @@ body {
   color: #fff !important;
 }
 
-.btn-transparent { border-color: transparent !important; }
+.btn-transparent { border-color: transparent !important; background-color: transparent !important; }
 .btn-transparent:hover { border-color: transparent !important; background-color: transparent !important; }
 .icon { float: right; }
 .help-block-inline {

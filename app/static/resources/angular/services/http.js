@@ -1,4 +1,4 @@
-angular.module('http-service', ['log-service'])
+angular.module('mlt.services')
 .service('HTTPService', function ($http, $q, LogService) {
   var objectName = 'services.http-service';
   return {

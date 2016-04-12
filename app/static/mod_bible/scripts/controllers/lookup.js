@@ -4,12 +4,36 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   var object_name = $route.current.controller;
   LogService.logEntry(object_name, 'start', 'Initialize controller');
 
+  $scope.config.screen_name = object_name;
+  $scope.config.body.navbar_collapsed = true;
+  $scope.config.body.style = {
+    "padding-top": "50px"
+  };
+  $scope.config.navbar.style = {
+    "background-color": "#CECECE",
+    "height": "55px"
+  };
+
   var data_url = $scope.config.restUrl;
 
   $scope.ref_id = null;
-  $anchorScroll.yOffset = 60;
+  $anchorScroll.yOffset = 100;
   $scope.column_width = '40%';
   $scope.hideSelector = false;
+
+  $scope.verse_menu_options = [
+      ['Make a note', function ($itemScope, $event, verse_id) {
+          console.log('Make a note at: ' + verse_id);
+      }],
+      null,
+      ['Bookmark', function ($itemScope, $event, verse_id) {
+          console.log('Bookmark: ' + verse_id);
+      }],
+      null,
+      ['Highlight', function ($itemScope, $event, verse_id) {
+          console.log('Highlight: ' + verse_id);
+      }],
+  ];
 
   $scope.data = {
     'books': [],
@@ -62,7 +86,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
         }
         $scope.data.chapter_range = chapter_range;
       });
-      $scope.setAnchorScroll('chapter_select');
     } else {
       console.log('Nothing selected');
     }
@@ -86,15 +109,12 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
       }
       $scope.data.verse_range = verse_range;
     }
-
-    $scope.setAnchorScroll('verse_select');
   };
 
   $scope.openVerse = function(verse_id) {
     HTTPService.get(data_url + 'lookup/' + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id).then(function (data) {
       $scope.data.selected_book.text = data.results;
       $scope.scrollToVerse(verse_id);
-      console.log($scope.data.selected_book);
     });
   }
 
@@ -140,7 +160,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   $scope.scrollToTopVerse = function() {
     $scope.scrollToVerse(1);
-    $scope.setAnchorScroll('verse_select');
     $scope.hideSelector = false;
   };
 
