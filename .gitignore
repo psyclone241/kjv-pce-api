@@ -7,3 +7,4 @@ dev_work/
 app/static/resources/bower_components/
 config.json
 config.json.old
+flaskapp.wsgi
