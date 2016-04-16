@@ -1,10 +1,12 @@
-angular.module('KJVPCE', ['ngRoute', 'ui.bootstrap', 'http-service', 'log-service'])
-.config(function($routeProvider, $provide) {
+angular.module('KJVPCE', ['ngRoute', 'ui.bootstrap', 'mlt.services', 'mlt.directives', 'ui.contextmenu'])
+.config(function($routeProvider, $provide, $interpolateProvider) {
+  $interpolateProvider.startSymbol('{[');
+  $interpolateProvider.endSymbol(']}');
   $provide.factory('$routeProvider', function() {
     return $routeProvider;
   });
 })
-.run(function($rootScope, $route, $routeProvider, HTTPService, LogService) {
+.run(function($rootScope, $route, $routeProvider, HTTPService, LogService, $location, $anchorScroll) {
   $routeProvider
     .when('/', {
       templateUrl: '../static/root/views/main.html',
