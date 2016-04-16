@@ -1,8 +1,15 @@
 #!!/usr/bin/env python
 import os
+import sys
 import unittest
 
+config_path = os.path.join('..','..')
+app_path = os.path.join('..', '..', 'app')
+
+sys.path.append(config_path)
 import config
+
+sys.path.append(app_path)
 from app import app, db
 from app.mod_bible.models.sqlite import Bible
 from app.mod_bible.models.sqlite import BibleSchema
@@ -13,7 +20,7 @@ class TestCase(unittest.TestCase):
         # print(config['BASEDIR'])
         # app.config['TESTING'] = True
         # app.config['WTF_CSRF_ENABLED'] = False
-        # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.config['BASEDIR'], '/tests/test.db')
+        # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.config['BASEDIR'], '/test/test.db')
         self.app = app.test_client()
         # db.create_all()
 

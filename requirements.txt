@@ -1,0 +1,13 @@
+Flask==0.10.1
+Flask-SQLAlchemy==2.1
+Jinja2==2.8
+MarkupSafe==0.23
+SQLAlchemy==1.0.12
+Werkzeug==0.11.5
+argparse==1.2.1
+flask-marshmallow==0.6.2
+itsdangerous==0.24
+marshmallow==2.7.0
+marshmallow-sqlalchemy==0.8.1
+six==1.10.0
+wsgiref==0.1.2

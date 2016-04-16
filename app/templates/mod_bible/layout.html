@@ -7,51 +7,109 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="shortcut icon" href="/static/mod_bible/images/logo_bible.ico">
+    <link rel="apple-touch-icon-precomposed" href="/static/mod_bibl/images/logo_bible.png">
 
     <title>KJV-PCE-API v2 - Bible Module</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Angular & Friends -->
     <script src="/static/resources/bower_components/angular/angular.min.js"></script>
-    <script src="/static/resources/bower_components/angular-route/angular-route.js"></script>
+    <script src="/static/resources/bower_components/angular-route/angular-route.min.js"></script>
+    <script src="/static/resources/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/static/resources/bower_components/angular-touch/angular-touch.min.js"></script>
+
+    <!-- Angular UI Bootstrap -->
+    <script src="/static/resources/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="/static/resources/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/static/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script src="/static/resources/angular/services/log-service.js"></script>
-    <script src="/static/resources/angular/services/http-service.js"></script>
-    <script src="/static/mod_bible/config.js"></script>
+    <!-- Application Scripts -->
+    <script src="/static/resources/angular/services/main.js"></script>
+    <script src="/static/resources/angular/services/log.js"></script>
+    <script src="/static/resources/angular/services/http.js"></script>
+
+    <script src="/static/resources/angular/directives/main.js"></script>
+    <script src="/static/resources/angular/directives/pressableelement.js"></script>
+    <script src="/static/resources/angular/directives/contextmenu.js"></script>
+
     <script src="/static/mod_bible/app.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/main.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/lookup.js"></script>
 
     <!-- Custom styles for this template -->
-    <link href="/static/resources/css/mod_bible/style.css" rel="stylesheet">
+    <link href="/static/mod_bible/css/style.css" rel="stylesheet">
   </head>
 
-  <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button> -->
-          <a class="navbar-brand" href="#/">KJV-PCE-API v2 - Bible Module</a>
+  <body ng-style="config.body.style">
+    <div id="wrap">
+      <!-- Top Navigation Bar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container" ng-show="!config.body.navbar_collapsed">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" ng-disabled="config.body.expand_disabled">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MLT Bible Module</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <!-- <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li> -->
+            </ul>
+            <!-- <ul class="nav navbar-nav navbar-right">
+              <li><a href="">Default</a></li>
+              <li><a href="">Static top <span class="sr-only">(current)</span></a></li>
+              <li><a href="">Fixed top</a></li> -->
+            </ul>
+          </div><!--/.nav-collapse -->
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <!-- <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li> -->
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+        <div class="container navbar-lower" ng-style="config.navbar.style">
+          <button type="button" class="btn btn-transparent btn-md" ng-show="config.screen_name!='MainController'" ng-click="home()">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </button>
+          <div class="btn-group" role="group" aria-label="..." ng-show="config.screen_name=='LookupController'">
+            <button type="button" class="btn btn-default" ng-click="data.selected_book ? selectAnotherBook() : null" ng-if="data.selected_book">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
+            <button type="button" class="btn btn-default" ng-click="data.selected_book || data.selected_book.selected_chapter ? selectAnotherChapter() : null" ng-if="data.selected_book.selected_chapter">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
+            <button type="button" class="btn btn-default" ng-click="data.selected_book.selected_verse ? selectAnotherVerse() : null" ng-if="data.selected_book.selected_verse">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
+          </div>
+        </div>
+      </nav>
 
-    <div class="container">
-      {% block content %}
-      {% endblock content %}
+      <!-- This is where the main content for each section is displayed -->
+      <div class="container">
+        {% block content %}
+        {% endblock content %}
+      </div>
+
+      <!-- Bottom Navigation Bar -->
+      <div class="col-xs-12 navbar-inverse navbar-fixed-bottom">
+        <div class="row" id="bottomNav">
+          <div class="col-xs-3 text-center stuff"><a href="#/" title="Home"><i class="glyphicon glyphicon-home"></i></a></div>
+          <div class="col-xs-2 text-center"><a href="#/plugins" title="Plugins"><i class="glyphicon glyphicon-briefcase"></i></a></div>
+          <div class="col-xs-2 text-center"><a href="#/tools/add" title="Tools"><i class="glyphicon glyphicon-plus"></i></a></div>
+          <div class="col-xs-2 text-center"><a href="#/lookup" title="Lookup"><i class="glyphicon glyphicon-book"></i></a></div>
+          <!-- <div class="col-xs-2 text-center"><a href="#/lookup" title="Lookup"><i class="glyphicon glyphicon-search"></i></a></div> -->
+          <div class="col-xs-3 text-center"><a href="#/settings" title="Settings"><i class="glyphicon glyphicon-cog"></i></a></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
