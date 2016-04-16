@@ -19,7 +19,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $scope.ref_id = null;
   $anchorScroll.yOffset = 120;
   $scope.column_width = '40%';
-  $scope.hideSelector = false;
 
   $scope.verse_menu_options = [
       ['Make a note', function ($itemScope, $event, verse_id) {
@@ -34,21 +33,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
           console.log('Highlight: ' + verse_id);
       }],
   ];
-
-  // $scope.data = {
-  //   'books': [],
-  //   'selected_book': null,
-  //   'chapter_range': null,
-  //   'verse_range': null,
-  // };
-
-  $scope.collapseSelector = function() {
-    if($scope.hideSelector) {
-      $scope.hideSelector = false;
-    } else {
-      $scope.hideSelector = true;
-    }
-  };
 
   $scope.getBooks = function(ref_id) {
     HTTPService.get(data_url + 'get_books/').then(function (data) {
@@ -124,24 +108,14 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $scope.scrollToVerse = function(verse_id) {
     $scope.data.selected_book.selected_verse = verse_id;
     $scope.data.select_another_verse = false;
-    var scroll_to_verse_id = '';
-    angular.forEach($scope.data.selected_book.text, function(value, key) {
-      if(value.verse_id == verse_id) {
-        scroll_to_verse_id = value.id;
-      }
-    });
-
-    $scope.hideSelector = true;
-
-    scroll_target = 'anchor_' + scroll_to_verse_id;
-    $scope.setAnchorScroll(scroll_target);
+    $scope.setAnchorScroll('anchor_' + verse_id);
   }
 
-  $scope.setAnchorScroll = function(scroll_target) {
-    $location.hash(scroll_target);
-    $location.path('/lookup');
-    $anchorScroll();
-  }
+  // $scope.setAnchorScroll = function(scroll_target) {
+  //   $location.hash(scroll_target);
+  //   $location.path('/lookup');
+  //   $anchorScroll();
+  // }
 
   $scope.unsetBook = function() {
     $scope.data.selected_book = null;
@@ -161,11 +135,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
       $scope.data.selected_book.selected_verse = null;
     }
   }
-
-  $scope.scrollToTopVerse = function() {
-    $scope.scrollToVerse(1);
-    $scope.hideSelector = false;
-  };
 
   $scope.getBooks($routeParams.ref_id);
   if ($scope.data.selected_book) {

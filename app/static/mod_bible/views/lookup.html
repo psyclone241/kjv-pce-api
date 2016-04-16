@@ -1,24 +1,18 @@
-<div class="panel panel-primary" ng-if="!data.selected_book || data.select_another_book">
-  <div class="panel-heading text-right" ng-click="collapseSelector()">
-    <div class="nav">
-      <div class="btn-group pull-left" data-toggle="buttons">
-        <h3 class="panel-title">Lookup</h3>
-      </div>
-    </div>
-  </div>
+<div ng-if="!data.selected_book || data.select_another_book">
   <div class="list-group">
-    <a ng-click="selectBook(book)" class="list-group-item" ng-repeat="book in data.books track by book.book_id">{[book.book_name]}</a>
+    <a ng-click="selectBook(book)" class="list-group-item" ng-class="book.book_id==data.selected_book.book_id ? 'active' : ''" ng-repeat="book in data.books track by book.book_id"><div id="anchor_book_{[book.book_id]}" class="anchor"></div>{[book.book_name]}</a>
   </div>
 </div>
 
 
-<div class="well well-lg" ng-show="(data.selected_book && data.chapter_range && !data.selected_book.selected_chapter) || (data.select_another_chapter)">
+<div class="well well-lg" ng-if="data.chapter_range && !data.selected_book.selected_chapter || data.select_another_chapter">
+  <div id="chapter_block" class="anchor"></div>
   <div class="container">
     <strong>Select a Chapter:</strong>
     <div ng-repeat="chapter in data.chapter_range">
       <div ng-class="row">
         <div class="col-xs-3">
-          <h3><span class="label label-primary" ng-click="openChapter(chapter)">{[chapter]}</span></h3>
+          <h3><div id="anchor_chapter_{[chapter]}" class="anchor"></div><span class="label" ng-class="chapter==data.selected_book.selected_chapter.chapter_id ? 'label-primary' : 'label-default'" ng-click="openChapter(chapter)">{[chapter]}</span></h3>
         </div>
       </div>
     </div>
@@ -26,13 +20,14 @@
 </div>
 
 
-<div class="well well-lg" ng-show="(data.selected_book && data.verse_range && data.selected_book.selected_chapter && !data.selected_book.selected_verse) || (data.select_another_verse)">
+<div class="well well-lg" ng-if="data.selected_book.selected_chapter && data.verse_range  && !data.selected_book.selected_verse && !data.select_another_chapter || data.select_another_verse">
+  <div id="verse_block" class="anchor"></div>
   <div class="container">
     <strong>Select a Verse:</strong>
     <div ng-repeat="verse in data.verse_range">
       <div ng-class="row">
         <div class="col-xs-3">
-          <h3><span class="label label-success" ng-click="openVerse(verse)">{[verse]}</span></h3>
+          <h3><div id="anchor_verse_{[verse]}" class="anchor"></div><span class="label" ng-class="verse==data.selected_book.selected_verse ? 'label-success' : 'label-default'" ng-click="openVerse(verse)">{[verse]}</span></h3>
         </div>
       </div>
     </div>
@@ -40,14 +35,14 @@
 </div>
 
 
-<div ng-if="data.selected_book.selected_verse && data.selected_book.text && !data.select_another_chapter && !data.select_another_verse">
+<div ng-if="(data.selected_book.selected_verse && data.selected_book.text) && (!data.select_another_book && !data.select_another_chapter && !data.select_another_verse)">
   <div id="verse_block" class="anchor"></div>
   <table class="table table-condensed">
     <tr
       ng-repeat="verse in data.selected_book.text"
       ng-class="{ 'list-group-item-info': verse.verse_id==data.selected_book.selected_verse }">
       <td class="lead" width="90%" ng-click="data.selected_book.selected_verse==verse.verse_id ? scrollToTopVerse() : openVerse(verse.verse_id)">
-        <div class="{[verse.class]}" id="anchor_{[verse.id]}" class="anchor">
+        <div class="{[verse.class]}" id="anchor_{[verse.verse_id]}" class="anchor">
           <strong>{[verse.verse_id]}.</strong> {[verse.verse_text]}
         </div>
       </td>
