@@ -5,9 +5,9 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   LogService.logEntry(object_name, 'start', 'Initialize controller');
 
   $scope.config.screen_name = object_name;
-  $scope.config.body.navbar_collapsed = true;
+  $scope.config.body.navbar_collapsed = false;
   $scope.config.body.style = {
-    "padding-top": "50px"
+    "padding-top": "100px"
   };
   $scope.config.navbar.style = {
     "background-color": "#CECECE",
@@ -17,7 +17,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   var data_url = $scope.config.restUrl;
 
   $scope.ref_id = null;
-  $anchorScroll.yOffset = 100;
+  $anchorScroll.yOffset = 120;
   $scope.column_width = '40%';
   $scope.hideSelector = false;
 
@@ -35,12 +35,12 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
       }],
   ];
 
-  $scope.data = {
-    'books': [],
-    'selected_book': null,
-    'chapter_range': null,
-    'verse_range': null,
-  };
+  // $scope.data = {
+  //   'books': [],
+  //   'selected_book': null,
+  //   'chapter_range': null,
+  //   'verse_range': null,
+  // };
 
   $scope.collapseSelector = function() {
     if($scope.hideSelector) {
@@ -74,7 +74,9 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     });
   };
 
-  $scope.selectBook = function() {
+  $scope.selectBook = function(book) {
+    $scope.data.selected_book = book;
+    $scope.data.select_another_book = false;
     if($scope.data.selected_book) {
       console.log('Getting chapters');
       HTTPService.get(data_url + 'get_chapters/' + $scope.data.selected_book.book_id + '/verses').then(function (data) {
@@ -92,7 +94,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   };
 
   $scope.openChapter = function(chapter_id) {
-    console.log(chapter_id);
     var selected_chapter = null;
     angular.forEach($scope.data.selected_book.verses.by_chapter, function(value, key) {
       if(value.chapter_id == chapter_id) {
@@ -101,7 +102,9 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     });
 
     if(selected_chapter) {
+      $scope.unsetChapter();
       $scope.data.selected_book.selected_chapter = selected_chapter;
+      $scope.data.select_another_chapter = false;
       var verse_range = []
       var verse_max = selected_chapter.verse_id;
       for(var i=1; i<=verse_max; i++) {
@@ -120,6 +123,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   $scope.scrollToVerse = function(verse_id) {
     $scope.data.selected_book.selected_verse = verse_id;
+    $scope.data.select_another_verse = false;
     var scroll_to_verse_id = '';
     angular.forEach($scope.data.selected_book.text, function(value, key) {
       if(value.verse_id == verse_id) {
@@ -164,5 +168,10 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   };
 
   $scope.getBooks($routeParams.ref_id);
+  if ($scope.data.selected_book) {
+    if($scope.data.selected_book.selected_verse) {
+      $scope.scrollToVerse($scope.data.selected_book.selected_verse);
+    }
+  }
 }
 );

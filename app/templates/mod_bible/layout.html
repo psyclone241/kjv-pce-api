@@ -86,9 +86,9 @@
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
           </button>
           <div class="btn-group" role="group" aria-label="..." ng-show="config.screen_name=='LookupController'">
-            <button type="button" class="btn btn-default">Left</button>
-            <button type="button" class="btn btn-default">Middle</button>
-            <button type="button" class="btn btn-default">Right</button>
+            <button type="button" class="btn btn-default" ng-click="selectAnotherBook()">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
+            <button type="button" class="btn btn-default" ng-click="selectAnotherChapter()">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
+            <button type="button" class="btn btn-default" ng-click="selectAnotherVerse()">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
           </div>
         </div>
       </nav>
