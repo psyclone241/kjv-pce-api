@@ -81,14 +81,17 @@
             </ul>
           </div><!--/.nav-collapse -->
         </div>
-        <div class="container navbar-lower" ng-style="config.navbar.style">
-          <button type="button" class="btn btn-transparent btn-md" ng-show="config.screen_name!='MainController'" ng-click="home()">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          </button>
-          <div class="btn-group" role="group" aria-label="..." ng-show="config.screen_name=='LookupController'">
-            <button type="button" class="btn btn-default" ng-click="data.selected_book ? selectAnotherBook() : null" ng-if="data.selected_book">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
-            <button type="button" class="btn btn-default" ng-click="data.selected_book || data.selected_book.selected_chapter ? selectAnotherChapter() : null" ng-if="data.selected_book.selected_chapter">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
-            <button type="button" class="btn btn-default" ng-click="data.selected_book.selected_verse ? selectAnotherVerse() : null" ng-if="data.selected_book.selected_verse">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
+        <div class="navbar-lower" ng-style="config.navbar.style">
+          <div class="container">
+            <button type="button" class="btn btn-transparent btn-md" ng-show="config.screen_name!='MainController'" ng-click="home()">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            </button>
+            <div class="btn-group" role="group" aria-label="..." ng-show="config.screen_name=='LookupController'">
+              <div ng-if="!data.selected_book">Select a Book</div>
+              <button type="button" class="btn btn-default" ng-click="data.selected_book ? selectAnotherBook() : null" ng-if="data.selected_book">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
+              <button type="button" class="btn btn-default" ng-click="data.selected_book || data.selected_book.selected_chapter ? selectAnotherChapter() : null" ng-if="data.selected_book.selected_chapter">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
+              <button type="button" class="btn btn-default" ng-click="data.selected_book.selected_verse ? selectAnotherVerse() : null" ng-if="data.selected_book.selected_verse">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
+            </div>
           </div>
         </div>
       </nav>
