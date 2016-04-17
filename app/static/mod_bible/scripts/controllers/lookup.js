@@ -6,11 +6,12 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   $scope.config.screen_name = object_name;
   $scope.config.body.navbar_collapsed = false;
+  $scope.config.body.expand_disabled = false;
   $scope.config.body.style = {
     "padding-top": "100px"
   };
   $scope.config.navbar.style = {
-    "background-color": "#CECECE",
+    "background-color": "#fff",
     "height": "55px"
   };
 

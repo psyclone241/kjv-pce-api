@@ -1,0 +1,16 @@
+<div id="{[key]}_block" class="anchor"></div>
+<div class="panel {[headingclass]}">
+  <div class="panel-heading">
+    <h3 class="panel-title">Select a {[heading]}:</h3>
+  </div>
+  <div class="panel-body">
+    <div ng-repeat="item in data">
+      <div ng-class="row">
+        <div class="col-xs-3">
+          <div id="anchor_{[key]}_{[item]}" class="anchor"></div>
+          <input class="btn btn-fixed" type="button" value="{[item]}" ng-class="item==match ? 'btn-primary' : 'btn-default'" ng-click="openCtrlFunction(item)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

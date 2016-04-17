@@ -17,11 +17,16 @@ angular
     $rootScope.data = {
       'books': [],
       'selected_book': null,
+      'search_mode': false,
       'select_another_book': false,
       'select_another_chapter': false,
       'select_another_verse': false,
       'chapter_range': null,
       'verse_range': null,
+      'sections': {
+        'OT': 'Old Testament',
+        'NT': 'New Testament'
+      }
     };
 
     $rootScope.home = function() {
@@ -55,7 +60,18 @@ angular
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = true;
-      $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);      
+      $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+    };
+
+    $rootScope.enableSearchMode = function() {
+      if($rootScope.data.search_mode) {
+        // $rootScope.setAnchorScroll('lookup_top');
+        $rootScope.data.search_mode = false;
+      } else {
+        $rootScope.setAnchorScroll('lookup_top');
+        $rootScope.config.body.navbar_expanded = false;
+        $rootScope.data.search_mode = true;
+      }
     };
 
     HTTPService.get('../static/mod_bible/config/config.json').then(function(data) {

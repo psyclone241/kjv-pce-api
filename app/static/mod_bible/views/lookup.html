@@ -1,39 +1,65 @@
+<div id="lookup_top" class="anchor"></div>
+<div class="well well-lg" ng-if="data.search_mode">
+  <button type="button" class="btn btn-xs btn-warning pull-right" ng-click="enableSearchMode()">
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  </button>
+  <br>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label for="keyword" class="col-sm-2 control-label">Keyword(s)</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="keyword" placeholder="keyword(s)" focus-me="data.search_mode">
+      </div>
+    </div>
+    <div class="form-group" ng-if="data.selected_book">
+      <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.section">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Only in the {[data.sections[data.selected_book.section]]}
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.book_name">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Only in {[data.selected_book.book_name]}
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.selected_chapter">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Only in chapter {[data.selected_book.selected_chapter.chapter_id]}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10 text-center">
+        <button type="button" class="btn btn-default">Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <div ng-if="!data.selected_book || data.select_another_book">
-  <div class="list-group">
-    <a ng-click="selectBook(book)" class="list-group-item" ng-class="book.book_id==data.selected_book.book_id ? 'active' : ''" ng-repeat="book in data.books track by book.book_id"><div id="anchor_book_{[book.book_id]}" class="anchor"></div>{[book.book_name]}</a>
-  </div>
-</div>
-
-
-<div class="well well-lg" ng-if="data.chapter_range && !data.selected_book.selected_chapter || data.select_another_chapter">
-  <div id="chapter_block" class="anchor"></div>
-  <div class="container">
-    <strong>Select a Chapter:</strong>
-    <div ng-repeat="chapter in data.chapter_range">
-      <div ng-class="row">
-        <div class="col-xs-3">
-          <h3><div id="anchor_chapter_{[chapter]}" class="anchor"></div><span class="label" ng-class="chapter==data.selected_book.selected_chapter.chapter_id ? 'label-primary' : 'label-default'" ng-click="openChapter(chapter)">{[chapter]}</span></h3>
-        </div>
-      </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Select a Book:</h3>
+    </div>
+    <div class="list-group">
+      <a ng-click="selectBook(book)" class="list-group-item" ng-class="book.book_id==data.selected_book.book_id ? 'active' : ''" ng-repeat="book in data.books track by book.book_id"><div id="anchor_book_{[book.book_id]}" class="anchor"></div>{[book.book_name]}</a>
     </div>
   </div>
 </div>
 
-
-<div class="well well-lg" ng-if="data.selected_book.selected_chapter && data.verse_range  && !data.selected_book.selected_verse && !data.select_another_chapter || data.select_another_verse">
-  <div id="verse_block" class="anchor"></div>
-  <div class="container">
-    <strong>Select a Verse:</strong>
-    <div ng-repeat="verse in data.verse_range">
-      <div ng-class="row">
-        <div class="col-xs-3">
-          <h3><div id="anchor_verse_{[verse]}" class="anchor"></div><span class="label" ng-class="verse==data.selected_book.selected_verse ? 'label-success' : 'label-default'" ng-click="openVerse(verse)">{[verse]}</span></h3>
-        </div>
-      </div>
-    </div>
-  </div>
+<div ng-if="data.chapter_range && !data.selected_book.selected_chapter || data.select_another_chapter">
+  <buttonrange heading="Chapter" headingclass="panel-primary" data="data.chapter_range" match="data.selected_book.selected_chapter.chapter_id" key="chapter" callback-fn="openChapter(arg1)"></buttonrange>
 </div>
 
+<div ng-if="data.selected_book.selected_chapter && data.verse_range  && !data.selected_book.selected_verse && !data.select_another_chapter || data.select_another_verse">
+  <buttonrange heading="Verse" headingclass="panel-primary" data="data.verse_range" match="data.selected_book.selected_verse" key="verse" callback-fn="openVerse(arg1)"></buttonrange>
+</div>
 
 <div ng-if="(data.selected_book.selected_verse && data.selected_book.text) && (!data.select_another_book && !data.select_another_chapter && !data.select_another_verse)">
   <div id="verse_block" class="anchor"></div>

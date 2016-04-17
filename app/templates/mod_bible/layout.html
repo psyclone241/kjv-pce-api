@@ -38,6 +38,7 @@
     <script src="/static/mod_bible/app.js"></script>
     <script src="/static/mod_bible/scripts/controllers/main.js"></script>
     <script src="/static/mod_bible/scripts/controllers/lookup.js"></script>
+    <script src="/static/mod_bible/scripts/directives/buttonrange.js"></script>
 
     <!-- Custom styles for this template -->
     <link href="/static/mod_bible/css/style.css" rel="stylesheet">
@@ -55,44 +56,47 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">MLT Bible Module</a>
+            <a class="navbar-brand" href="#/">MLT Bible Module</a>
           </div>
-          <div id="navbar" class="navbar-collapse collapse">
+          <div id="navbar" class="navbar-collapse" ng-class="config.body.navbar_expanded ? '' : 'collapse'">
             <ul class="nav navbar-nav">
-              <!-- <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="#about">About</a></li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
+                  <li><a href="#/">Action</a></li>
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
+                  <li><a href="#/">Separated link</a></li>
                 </ul>
-              </li> -->
+              </li>
             </ul>
-            <!-- <ul class="nav navbar-nav navbar-right">
-              <li><a href="">Default</a></li>
-              <li><a href="">Static top <span class="sr-only">(current)</span></a></li>
-              <li><a href="">Fixed top</a></li> -->
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#/">Default</a></li>
+              <!-- <li><a href="#/">Static top <span class="sr-only">(current)</span></a></li>
+              <li><a href="#/">Fixed top</a></li> -->
             </ul>
+            <!-- <form class = "navbar-form navbar-left" role = "search">
+              <div class = "form-group">
+                <input type = "text" class = "form-control" placeholder = "Search">
+              </div>
+            </form> -->
           </div><!--/.nav-collapse -->
         </div>
         <div class="navbar-lower" ng-style="config.navbar.style">
-          <div class="container">
-            <button type="button" class="btn btn-transparent btn-md" ng-show="config.screen_name!='MainController'" ng-click="home()">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            </button>
-            <div class="btn-group" role="group" aria-label="..." ng-show="config.screen_name=='LookupController'">
-              <div ng-if="!data.selected_book">Select a Book</div>
-              <button type="button" class="btn btn-default" ng-click="data.selected_book ? selectAnotherBook() : null" ng-if="data.selected_book">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
-              <button type="button" class="btn btn-default" ng-click="data.selected_book || data.selected_book.selected_chapter ? selectAnotherChapter() : null" ng-if="data.selected_book.selected_chapter">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
-              <button type="button" class="btn btn-default" ng-click="data.selected_book.selected_verse ? selectAnotherVerse() : null" ng-if="data.selected_book.selected_verse">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
-            </div>
+          <!-- <button type="button" class="btn btn-transparent btn-md" ng-show="config.screen_name!='MainController' &&" ng-click="home()">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </button> -->
+          <!-- <span ng-if="!data.selected_book && config.screen_name=='LookupController'">Back to Home</span> -->
+          <button type="button" style="margin-left: 15px !important" class="btn btn-primary btn-md" ng-click="data.selected_book ? selectAnotherBook() : null" ng-if="data.selected_book" ng-show="config.screen_name=='LookupController'">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
+          <div class="btn-group" role="group" aria-label="..." ng-show="config.screen_name=='LookupController'">
+            <button type="button" class="btn btn-default btn-md" ng-click="data.selected_book || data.selected_book.selected_chapter ? selectAnotherChapter() : null" ng-if="data.selected_book.selected_chapter">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
+            <button type="button" class="btn btn-default btn-md" ng-click="data.selected_book.selected_verse ? selectAnotherVerse() : null" ng-if="data.selected_book.selected_verse">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
           </div>
+          <button type="button" class="btn pull-right" ng-class="data.search_mode ? 'btn-default' : 'btn-success'" style="margin-right: 15px !important" ng-show="config.screen_name=='LookupController'" ng-click="enableSearchMode()">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          </button>
+          <!-- <input type="text" class="form-control pull-right" placeholder="Search" ng-show="config.screen_name=='LookupController'" style="width: 80px !important"> -->
         </div>
       </nav>
 
