@@ -88,12 +88,17 @@
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
           </button> -->
           <!-- <span ng-if="!data.selected_book && config.screen_name=='LookupController'">Back to Home</span> -->
-          <button type="button" style="margin-left: 15px !important" class="btn btn-primary btn-md" ng-click="data.selected_book ? selectAnotherBook() : null" ng-if="data.selected_book" ng-show="config.screen_name=='LookupController'">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
+          <div class="btn-group" role="group" aria-label="..." ng-if="config.screen_name=='LookupController' && data.selected_book">
+            <button type="button" class="btn btn-warning btn-md" style="margin-left: 15px !important" ng-click="clearBookSelection()">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-primary btn-md" ng-click="data.selected_book ? selectAnotherBook() : null">{[data.selected_book ? data.selected_book.book_name : 'Book']}</button>
+          </div>
           <div class="btn-group" role="group" aria-label="..." ng-show="config.screen_name=='LookupController'">
             <button type="button" class="btn btn-default btn-md" ng-click="data.selected_book || data.selected_book.selected_chapter ? selectAnotherChapter() : null" ng-if="data.selected_book.selected_chapter">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
             <button type="button" class="btn btn-default btn-md" ng-click="data.selected_book.selected_verse ? selectAnotherVerse() : null" ng-if="data.selected_book.selected_verse">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
           </div>
-          <button type="button" class="btn pull-right" ng-class="data.search_mode ? 'btn-default' : 'btn-success'" style="margin-right: 15px !important" ng-show="config.screen_name=='LookupController'" ng-click="enableSearchMode()">
+          <button type="button" class="btn pull-right" ng-class="data.search_mode ? 'btn-default' : 'btn-success'" style="margin-right: 15px !important" ng-show="config.screen_name=='LookupController'" ng-click="switchSearchMode()">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
           </button>
           <!-- <input type="text" class="form-control pull-right" placeholder="Search" ng-show="config.screen_name=='LookupController'" style="width: 80px !important"> -->

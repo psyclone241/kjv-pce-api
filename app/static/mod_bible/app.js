@@ -18,6 +18,29 @@ angular
       'books': [],
       'selected_book': null,
       'search_mode': false,
+      'book_query': {
+        'book_name': null,
+        'section': 'both'
+      },
+      'search_parameters': {
+        'active': false,
+        'keywords': {
+          'data': null,
+          'set': false
+        },
+        'section': {
+          'data': null,
+          'set': false
+        },
+        'book': {
+          'data': null,
+          'set': false
+        },
+        'chapter': {
+          'data': null,
+          'set': false
+        }
+      },
       'select_another_book': false,
       'select_another_chapter': false,
       'select_another_verse': false,
@@ -39,8 +62,13 @@ angular
       $anchorScroll();
     }
 
+    $rootScope.clearBookSelection = function() {
+      $rootScope.data.selected_book = null;
+    };
+
     $rootScope.selectAnotherBook = function() {
       console.log('Selecting another book');
+      $rootScope.data.search_parameters.active = false;
       $rootScope.data.select_another_book = true;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = false;
@@ -49,6 +77,7 @@ angular
 
     $rootScope.selectAnotherChapter = function() {
       console.log('Selecting another chapter');
+      $rootScope.data.search_parameters.active = false;
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = true;
       $rootScope.data.select_another_verse = false;
@@ -57,20 +86,25 @@ angular
 
     $rootScope.selectAnotherVerse = function() {
       console.log('Selecting another verse');
+      $rootScope.data.search_parameters.active = false;
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = true;
       $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
     };
 
-    $rootScope.enableSearchMode = function() {
+    $rootScope.switchSearchMode = function() {
       if($rootScope.data.search_mode) {
-        // $rootScope.setAnchorScroll('lookup_top');
+        // If search mode is already on
         $rootScope.data.search_mode = false;
+        if($rootScope.data.selected_book.selected_verse) {
+          $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+        }
       } else {
-        $rootScope.setAnchorScroll('lookup_top');
-        $rootScope.config.body.navbar_expanded = false;
+        // If search mode is already off
         $rootScope.data.search_mode = true;
+        $rootScope.config.body.navbar_expanded = false;
+        $rootScope.setAnchorScroll('lookup_top');
       }
     };
 

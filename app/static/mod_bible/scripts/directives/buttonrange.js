@@ -10,7 +10,7 @@ angular.module('KJVPCE-Bible')
       key: '@key'
     },
     restrtict: 'E',
-    templateUrl : "../static/mod_bible/views/buttonrange.html",
+    templateUrl : "../static/mod_bible/views/directives/buttonrange.html",
     link: function postLink(scope, element, attrs) {
       // element.text('this is the apptoolbar directive');
       scope.openCtrlFunction = function(arg1) {

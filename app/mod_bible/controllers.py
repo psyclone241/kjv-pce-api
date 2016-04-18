@@ -19,6 +19,8 @@ elif config.DB == 'mysql':
     from app.mod_bible.models.mysql import Bible
     from app.mod_bible.models.mysql import BibleSchema
 
+from modconfig import config as modconfig
+
 # Get some shared methods that the app can use for various things
 # like printing json back to the browser
 from app import tools
@@ -41,6 +43,13 @@ def root():
 @mod_bible.route('/readme', methods=default_methods)
 def readMe():
     return render_template('mod_bible/readme.html'), 200
+
+@mod_bible.route('/version', methods=default_methods)
+def version():
+    version_data = {
+        'version': modconfig['version']
+    }
+    return tools.makeResponse(results=version_data, errors=False, message='API Version Response')
 
 @mod_bible.route('/keyword/<method>/<text>', methods=default_methods)
 @mod_bible.route('/keyword/<method>/', methods=default_methods)

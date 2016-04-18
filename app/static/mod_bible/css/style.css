@@ -116,14 +116,25 @@ body {
   margin: 2px !important;
 }
 
-.panel-heading h3 {
+.list-group-active {
+  background-color: #FFF !important;
+  color: #337ab7 !important;
   font-weight: bold !important;
-    /*
+}
+
+.list-group-item-default {
+    color: #000;
+    background-color: #eee;
+}
+
+.panel-heading h3 {
+    font-weight: bold !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: normal;
-    width: 75%; */
+    width: 75%;
+    padding-top: 4px;
 }
 
 .full-panel-100px {
