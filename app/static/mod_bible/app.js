@@ -73,6 +73,7 @@ angular
 
     $rootScope.clearBookSelection = function() {
       $rootScope.data.selected_book = null;
+      $rootScope.data.book_query.book_name = null;
       $rootScope.data.chapter_range = null;
       $rootScope.data.verse_range = null;
       $rootScope.data.search_parameters.active = false;
@@ -112,8 +113,10 @@ angular
       if($rootScope.data.search_mode) {
         // If search mode is already on
         $rootScope.data.search_mode = false;
-        if($rootScope.data.selected_book.selected_verse) {
-          $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+        if($rootScope.data.selected_book) {
+          if($rootScope.data.selected_book.selected_verse) {
+            $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+          }          
         }
       } else {
         // If search mode is already off

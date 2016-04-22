@@ -66,6 +66,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $scope.selectBook = function(book) {
     $scope.data.selected_book = book;
     $scope.data.select_another_book = false;
+    $scope.data.book_query.book_name = null;
     if($scope.data.selected_book) {
       console.log('Getting chapters');
       HTTPService.get(data_url + 'get_chapters/' + $scope.data.selected_book.book_id + '/verses').then(function (data) {
