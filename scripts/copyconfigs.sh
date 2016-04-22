@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-FILES=( "config.py" "app/static/mod_bible/config/config.json" "flaskapp.wsgi" )
-EXAMPLES=( "config.example.py" "app/static/mod_bible/config/config.example.json" "flaskapp.example.wsgi" )
+FILES=( "config.py" "app/static/mod_bible/config/config.json" "flaskapp.wsgi" "app/mod_bible/modconfig.py" )
+EXAMPLES=( "config.example.py" "app/static/mod_bible/config/config.example.json" "flaskapp.example.wsgi" "app/mod_bible/modconfig.example.py" )
 
 function processConfig {
   if [ -z "${1}" ];
