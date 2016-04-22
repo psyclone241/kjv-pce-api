@@ -21,6 +21,10 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $anchorScroll.yOffset = 120;
   $scope.column_width = '40%';
 
+  $scope.setPage = function(page_number) {
+    $scope.current_page = page_number;
+  };
+
   $scope.verse_menu_options = [
       ['Make a note', function ($itemScope, $event, verse_id) {
           console.log('Make a note at: ' + verse_id);
@@ -160,12 +164,38 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   $scope.search = function() {
     console.log($scope.data.search_parameters);
+    $scope.data.search_results.current_page = 1;
     $scope.data.search_parameters.active = true;
     $scope.data.search_parameters.keywords.set = true;
+
+    if($scope.data.search_parameters.keywords.match=='endswith') {
+      var last_character = $scope.data.search_parameters.keywords.data.slice(-1);
+      if(last_character != '.') {
+        $scope.data.search_parameters.keywords.data += '.';
+      }
+    }
+
+    // + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id
+    HTTPService.get(data_url + 'keyword/' + $scope.data.search_parameters.keywords.match + '/' + $scope.data.search_parameters.keywords.data).then(function (data) {
+      console.log(data);
+      $scope.data.search_results.data = data;
+      if(data.count > 0) {
+        $scope.data.search_parameters.hide_panel = true;
+      }
+    });
+  }
+
+  $scope.hideSearch = function() {
+    if($scope.data.search_parameters.hide_panel) {
+      $scope.data.search_parameters.hide_panel = false;
+    } else {
+      $scope.data.search_parameters.hide_panel = true;
+    }
   }
 
   $scope.clearSearch = function(close) {
     $scope.data.search_parameters.active = false;
+    $scope.data.search_parameters.hide_panel = false;
     angular.forEach($scope.data.search_parameters, function(value, key) {
       if(key != 'active') {
         value.data = null;
@@ -175,8 +205,10 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
     if(close) {
       $scope.data.search_mode = false;
-      if($scope.data.selected_book.selected_verse) {
-        $scope.setAnchorScroll('anchor_verse_' + $scope.data.selected_book.selected_verse);
+      if($scope.data.selected_book) {
+        if($scope.data.selected_book.selected_verse) {
+          $scope.setAnchorScroll('anchor_verse_' + $scope.data.selected_book.selected_verse);
+        }
       }
     }
   }

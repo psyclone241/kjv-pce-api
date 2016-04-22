@@ -31,6 +31,8 @@ body {
 	-webkit-user-select: none;
 }
 
+.highlighted { background: yellow; }
+
 /* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;

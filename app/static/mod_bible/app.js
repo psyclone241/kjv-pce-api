@@ -1,5 +1,5 @@
 angular
-  .module('KJVPCE-Bible', ['ngRoute', 'ui.bootstrap', 'mlt.services', 'mlt.directives', 'ui.contextmenu'])
+  .module('KJVPCE-Bible', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'mlt.services', 'mlt.directives', 'mlt.filters', 'ui.contextmenu'])
   .config(function($routeProvider, $provide, $interpolateProvider) {
     $interpolateProvider.startSymbol('{[');
     $interpolateProvider.endSymbol(']}');
@@ -23,10 +23,12 @@ angular
         'section': 'both'
       },
       'search_parameters': {
+        'hide_panel': false,
         'active': false,
         'keywords': {
           'data': null,
-          'set': false
+          'set': false,
+          'match': 'contains'
         },
         'section': {
           'data': null,
@@ -40,6 +42,13 @@ angular
           'data': null,
           'set': false
         }
+      },
+      'search_results': {
+        'data': null,
+        'current_page': 1,
+        'max_size': 5,
+        'items_per_page': 25,
+        'number_of_pages': null
       },
       'select_another_book': false,
       'select_another_chapter': false,
@@ -64,6 +73,12 @@ angular
 
     $rootScope.clearBookSelection = function() {
       $rootScope.data.selected_book = null;
+      $rootScope.data.chapter_range = null;
+      $rootScope.data.verse_range = null;
+      $rootScope.data.search_parameters.active = false;
+      $rootScope.data.select_another_book = false;
+      $rootScope.data.select_another_chapter = false;
+      $rootScope.data.select_another_verse = false;
     };
 
     $rootScope.selectAnotherBook = function() {

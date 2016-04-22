@@ -2,27 +2,40 @@
 <div class="panel panel-default" uib-collapse="!data.search_mode">
   <div class="panel-heading">
        <h3 class="panel-title pull-left">Search</h3>
-
-       <button type="button" class="btn btn-sm btn-default pull-right" ng-click="clearSearch(true)">
+       <button type="button" class="btn btn-sm btn-danger pull-right" ng-click="clearSearch(true)">
          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+       </button>
+       <button type="button" class="btn btn-sm btn-default" ng-click="hideSearch()">
+         <span class="glyphicon" ng-class="data.search_parameters.hide_panel ? 'glyphicon-chevron-right': 'glyphicon-chevron-down'" aria-hidden="true"></span>
        </button>
       <div class="clearfix"></div>
   </div>
-  <!-- <div class="panel-heading">
-    <h3 class="panel-title pull-left">Search</h3>
-  </div> -->
-  <div class="panel-body">
+  <div class="panel-body" uib-collapse="data.search_parameters.hide_panel">
     <form class="form-horizontal">
       <div class="form-group">
         <label for="keyword" class="col-sm-2 control-label">Keyword(s):</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="keyword" ng-model="data.search_parameters.keywords.data" placeholder="keyword(s)">
         </div>
+        <div class="text-center">
+          <label class="radio-inline">
+            <input type="radio" name="keyword_contains" id="keyword_contains" value="contains" ng-model="data.search_parameters.keywords.match"> Contains
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="keyword_startswith" id="keyword_startswith" value="startswith" ng-model="data.search_parameters.keywords.match"> Starts
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="keyword_endswith" id="keyword_endswith" value="endswith" ng-model="data.search_parameters.keywords.match"> Ends
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="keyword_exact" id="keyword_exact" value="exact" ng-model="data.search_parameters.keywords.match"> Exact
+          </label>
+        </div>
       </div>
       <div class="form-group" ng-if="data.selected_book">
         <label for="limitto" class="col-sm-2 control-label">Limit to text in:</label>
         <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.section">
-          <div class="checkbox" id="limitto">
+          <div class="checkbox">
             <label>
               <input type="checkbox" id="verses_in_section" ng-change="setSearchParameter('section', data.selected_book.section)" ng-model="data.search_parameters.section.set"> the {[data.sections[data.selected_book.section]]}
             </label>
@@ -49,6 +62,34 @@
       </div>
     </form>
   </div>
+</div>
+<div ng-if="data.search_parameters.active && data.search_results.data && data.search_results.data.count > 0">
+  <div class="well well-sm">
+    <strong>Page:</strong> {[data.search_results.current_page]} / {[data.search_results.number_of_pages]}
+    <span class="pull-right"><strong>Results:</strong> {[data.search_results.data.count]}</span>
+  </div>
+  <uib-pager total-items="data.search_results.data.count" items-per-page="data.search_results.items_per_page" ng-model="data.search_results.current_page"></uib-pager>
+  <table class="table table-condensed table-striped table-hover">
+    <!-- <tr>
+      <th width="10px">B</th>
+      <th width="10px">C</th>
+      <th width="10px">V</th>
+      <th>Text</th>
+    </tr> -->
+    <tr ng-repeat="verse in data.search_results.data.results |  offset: ((data.search_results.current_page*data.search_results.items_per_page) - data.search_results.items_per_page) | limitTo: data.search_results.items_per_page">
+      <td>{[verse.book_abbr]}</td>
+      <td>{[verse.chapter_id]}</td>
+      <td>{[verse.verse_id]}</td>
+      <td ng-bind-html="verse.verse_text | highlight:data.search_parameters.keywords.data"></td>
+    </tr>
+  </table>
+  <div class="text-center">
+    <uib-pagination direction-links="true" boundary-links="true" total-items="data.search_results.data.count" num-pages="data.search_results.number_of_pages" items-per-page="data.search_results.items_per_page" max-size="data.search_results.max_size" ng-model="data.search_results.current_page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+  </div>
+</div>
+
+<div ng-if="data.search_parameters.active && data.search_results.data && data.search_results.data.count <= 0">
+  No verses matched your criteria
 </div>
 
 <div ng-if="!data.search_parameters.active">
