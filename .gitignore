@@ -13,3 +13,5 @@ config.json
 config.json.old
 
 flaskapp.wsgi
+
+node_modules/
