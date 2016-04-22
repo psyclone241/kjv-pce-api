@@ -6,6 +6,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   $scope.config.screen_name = object_name;
   $scope.config.body.navbar_collapsed = false;
+  $scope.config.body.expand_disabled = false;
   $scope.config.body.style = {
     "padding-top": "100px"
   };
@@ -19,6 +20,10 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $scope.ref_id = null;
   $anchorScroll.yOffset = 120;
   $scope.column_width = '40%';
+
+  $scope.setPage = function(page_number) {
+    $scope.current_page = page_number;
+  };
 
   $scope.verse_menu_options = [
       ['Make a note', function ($itemScope, $event, verse_id) {
@@ -77,6 +82,24 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     }
   };
 
+  $scope.sectionFilter = function(element) {
+    if($scope.data.book_query.section != 'both') {
+      return_value = element.section==$scope.data.book_query.section;
+    } else {
+      return_value = true;
+    }
+    return return_value;
+  };
+
+  $scope.bookFilter = function(element) {
+    if($scope.data.book_query.book_name) {
+      return_value = element.book_name.toLowerCase().indexOf($scope.data.book_query.book_name.toLowerCase()) > -1;
+    } else {
+      return_value = true;
+    }
+    return return_value;
+  };
+
   $scope.openChapter = function(chapter_id) {
     var selected_chapter = null;
     angular.forEach($scope.data.selected_book.verses.by_chapter, function(value, key) {
@@ -88,6 +111,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     if(selected_chapter) {
       $scope.unsetChapter();
       $scope.data.selected_book.selected_chapter = selected_chapter;
+      $scope.data.search_parameters.chapter.data = selected_chapter;
       $scope.data.select_another_chapter = false;
       var verse_range = []
       var verse_max = selected_chapter.verse_id;
@@ -108,14 +132,8 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $scope.scrollToVerse = function(verse_id) {
     $scope.data.selected_book.selected_verse = verse_id;
     $scope.data.select_another_verse = false;
-    $scope.setAnchorScroll('anchor_' + verse_id);
+    $scope.setAnchorScroll('anchor_verse_' + verse_id);
   }
-
-  // $scope.setAnchorScroll = function(scroll_target) {
-  //   $location.hash(scroll_target);
-  //   $location.path('/lookup');
-  //   $anchorScroll();
-  // }
 
   $scope.unsetBook = function() {
     $scope.data.selected_book = null;
@@ -133,6 +151,65 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $scope.unsetVerse = function() {
     if($scope.data.selected_book) {
       $scope.data.selected_book.selected_verse = null;
+    }
+  }
+
+  $scope.setSearchParameter = function(key, value, disables_key) {
+    if($scope.data.search_parameters[key].set) {
+      $scope.data.search_parameters[key].data = value;
+    } else {
+      $scope.data.search_parameters[key].data = null;
+    }
+  }
+
+  $scope.search = function() {
+    console.log($scope.data.search_parameters);
+    $scope.data.search_results.current_page = 1;
+    $scope.data.search_parameters.active = true;
+    $scope.data.search_parameters.keywords.set = true;
+
+    if($scope.data.search_parameters.keywords.match=='endswith') {
+      var last_character = $scope.data.search_parameters.keywords.data.slice(-1);
+      if(last_character != '.') {
+        $scope.data.search_parameters.keywords.data += '.';
+      }
+    }
+
+    // + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id
+    HTTPService.get(data_url + 'keyword/' + $scope.data.search_parameters.keywords.match + '/' + $scope.data.search_parameters.keywords.data).then(function (data) {
+      console.log(data);
+      $scope.data.search_results.data = data;
+      if(data.count > 0) {
+        $scope.data.search_parameters.hide_panel = true;
+      }
+    });
+  }
+
+  $scope.hideSearch = function() {
+    if($scope.data.search_parameters.hide_panel) {
+      $scope.data.search_parameters.hide_panel = false;
+    } else {
+      $scope.data.search_parameters.hide_panel = true;
+    }
+  }
+
+  $scope.clearSearch = function(close) {
+    $scope.data.search_parameters.active = false;
+    $scope.data.search_parameters.hide_panel = false;
+    angular.forEach($scope.data.search_parameters, function(value, key) {
+      if(key != 'active') {
+        value.data = null;
+        value.set = false;
+      }
+    });
+
+    if(close) {
+      $scope.data.search_mode = false;
+      if($scope.data.selected_book) {
+        if($scope.data.selected_book.selected_verse) {
+          $scope.setAnchorScroll('anchor_verse_' + $scope.data.selected_book.selected_verse);
+        }
+      }
     }
   }
 

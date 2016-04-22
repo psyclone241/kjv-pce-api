@@ -1,10 +1,15 @@
 venv/
+*.pyc
+
 config.py
 config.py.old
-*.pyc
+modconfig.py
+
 data/mod_metav/
 dev_work/
 app/static/resources/bower_components/
+
 config.json
 config.json.old
+
 flaskapp.wsgi

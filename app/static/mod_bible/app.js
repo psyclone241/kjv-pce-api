@@ -1,5 +1,5 @@
 angular
-  .module('KJVPCE-Bible', ['ngRoute', 'ui.bootstrap', 'mlt.services', 'mlt.directives', 'ui.contextmenu'])
+  .module('KJVPCE-Bible', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'mlt.services', 'mlt.directives', 'mlt.filters', 'ui.contextmenu'])
   .config(function($routeProvider, $provide, $interpolateProvider) {
     $interpolateProvider.startSymbol('{[');
     $interpolateProvider.endSymbol(']}');
@@ -17,11 +17,48 @@ angular
     $rootScope.data = {
       'books': [],
       'selected_book': null,
+      'search_mode': false,
+      'book_query': {
+        'book_name': null,
+        'section': 'both'
+      },
+      'search_parameters': {
+        'hide_panel': false,
+        'active': false,
+        'keywords': {
+          'data': null,
+          'set': false,
+          'match': 'contains'
+        },
+        'section': {
+          'data': null,
+          'set': false
+        },
+        'book': {
+          'data': null,
+          'set': false
+        },
+        'chapter': {
+          'data': null,
+          'set': false
+        }
+      },
+      'search_results': {
+        'data': null,
+        'current_page': 1,
+        'max_size': 5,
+        'items_per_page': 25,
+        'number_of_pages': null
+      },
       'select_another_book': false,
       'select_another_chapter': false,
       'select_another_verse': false,
       'chapter_range': null,
       'verse_range': null,
+      'sections': {
+        'OT': 'Old Testament',
+        'NT': 'New Testament'
+      }
     };
 
     $rootScope.home = function() {
@@ -34,8 +71,19 @@ angular
       $anchorScroll();
     }
 
+    $rootScope.clearBookSelection = function() {
+      $rootScope.data.selected_book = null;
+      $rootScope.data.chapter_range = null;
+      $rootScope.data.verse_range = null;
+      $rootScope.data.search_parameters.active = false;
+      $rootScope.data.select_another_book = false;
+      $rootScope.data.select_another_chapter = false;
+      $rootScope.data.select_another_verse = false;
+    };
+
     $rootScope.selectAnotherBook = function() {
       console.log('Selecting another book');
+      $rootScope.data.search_parameters.active = false;
       $rootScope.data.select_another_book = true;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = false;
@@ -44,6 +92,7 @@ angular
 
     $rootScope.selectAnotherChapter = function() {
       console.log('Selecting another chapter');
+      $rootScope.data.search_parameters.active = false;
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = true;
       $rootScope.data.select_another_verse = false;
@@ -52,10 +101,26 @@ angular
 
     $rootScope.selectAnotherVerse = function() {
       console.log('Selecting another verse');
+      $rootScope.data.search_parameters.active = false;
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = true;
-      $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);      
+      $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+    };
+
+    $rootScope.switchSearchMode = function() {
+      if($rootScope.data.search_mode) {
+        // If search mode is already on
+        $rootScope.data.search_mode = false;
+        if($rootScope.data.selected_book.selected_verse) {
+          $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+        }
+      } else {
+        // If search mode is already off
+        $rootScope.data.search_mode = true;
+        $rootScope.config.body.navbar_expanded = false;
+        $rootScope.setAnchorScroll('lookup_top');
+      }
     };
 
     HTTPService.get('../static/mod_bible/config/config.json').then(function(data) {

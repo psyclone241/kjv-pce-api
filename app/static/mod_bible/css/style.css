@@ -31,6 +31,8 @@ body {
 	-webkit-user-select: none;
 }
 
+.highlighted { background: yellow; }
+
 /* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;
@@ -110,14 +112,31 @@ body {
   color: #737373
 }
 
-.panel-heading h3 {
+.btn-fixed {
+  width: 50px !important;
   font-weight: bold !important;
-    /*
+  margin: 2px !important;
+}
+
+.list-group-active {
+  background-color: #FFF !important;
+  color: #337ab7 !important;
+  font-weight: bold !important;
+}
+
+.list-group-item-default {
+    color: #000;
+    background-color: #eee;
+}
+
+.panel-heading h3 {
+    font-weight: bold !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: normal;
-    width: 75%; */
+    width: 75%;
+    padding-top: 4px;
 }
 
 .full-panel-100px {
