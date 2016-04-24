@@ -16,6 +16,7 @@ angular
     $rootScope.defaults = {};
     $rootScope.data = {
       'books': [],
+      'loading_books':false,
       'selected_book': null,
       'search_mode': false,
       'book_query': {
@@ -30,18 +31,7 @@ angular
           'set': false,
           'match': 'contains'
         },
-        'section': {
-          'data': null,
-          'set': false
-        },
-        'book': {
-          'data': null,
-          'set': false
-        },
-        'chapter': {
-          'data': null,
-          'set': false
-        }
+        'limit_to': ''
       },
       'search_results': {
         'data': null,
@@ -49,6 +39,14 @@ angular
         'max_size': 5,
         'items_per_page': 25,
         'number_of_pages': null
+      },
+      'reference_lookup': {
+        'data': null
+      },
+      'reference_data': {
+        'book': null,
+        'chapter': null,
+        'verses': null
       },
       'select_another_book': false,
       'select_another_chapter': false,
@@ -73,12 +71,15 @@ angular
 
     $rootScope.clearBookSelection = function() {
       $rootScope.data.selected_book = null;
+      $rootScope.data.book_query.book_name = null;
       $rootScope.data.chapter_range = null;
       $rootScope.data.verse_range = null;
       $rootScope.data.search_parameters.active = false;
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = false;
+
+      $rootScope.setAnchorScroll('book_block');
     };
 
     $rootScope.selectAnotherBook = function() {
@@ -87,6 +88,11 @@ angular
       $rootScope.data.select_another_book = true;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = false;
+      if($rootScope.data.reference_data) {
+        $rootScope.data.reference_data.book = null;
+        $rootScope.data.reference_data.chapter = null;
+        $rootScope.data.reference_data.verses = null;
+      }
       $rootScope.setAnchorScroll('anchor_book_' + $rootScope.data.selected_book.book_id);
     }
 
@@ -96,6 +102,10 @@ angular
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = true;
       $rootScope.data.select_another_verse = false;
+        $rootScope.data.reference_data.chapter = null;
+      if($rootScope.data.reference_data) {
+        $rootScope.data.reference_data.verses = null;
+      }
       $rootScope.setAnchorScroll('anchor_chapter_' + $rootScope.data.selected_book.selected_chapter.chapter_id);
     };
 
@@ -105,6 +115,9 @@ angular
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = true;
+      if($rootScope.data.reference_data) {
+        $rootScope.data.reference_data.verses = null;
+      }
       $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
     };
 
@@ -112,14 +125,26 @@ angular
       if($rootScope.data.search_mode) {
         // If search mode is already on
         $rootScope.data.search_mode = false;
-        if($rootScope.data.selected_book.selected_verse) {
-          $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+        if($rootScope.data.selected_book) {
+          if($rootScope.data.selected_book.selected_verse) {
+            $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+          }
         }
       } else {
         // If search mode is already off
         $rootScope.data.search_mode = true;
         $rootScope.config.body.navbar_expanded = false;
         $rootScope.setAnchorScroll('lookup_top');
+      }
+    };
+
+    $rootScope.lookupReference = function() {
+      if($rootScope.data.reference_lookup.data) {
+        if($rootScope.data.search_mode) {
+          $rootScope.data.search_parameters.active = false;
+          $rootScope.switchSearchMode();
+        }
+        $location.path('/lookup/reference/' + $rootScope.data.reference_lookup.data);
       }
     };
 
@@ -140,7 +165,7 @@ angular
         controllerAs: 'main',
         reloadOnSearch: false,
       })
-      .when('/lookup/:ref_id?', {
+      .when('/lookup/:object_id?/:object_data?', {
         templateUrl: '../static/mod_bible/views/lookup.html',
         controller: 'LookupController',
         controllerAs: 'lookup',

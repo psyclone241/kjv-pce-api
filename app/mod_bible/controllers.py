@@ -56,7 +56,8 @@ def version():
 @mod_bible.route('/keyword/<method>/<text>/<book>/<chapter>/<verse>', methods=default_methods)
 @mod_bible.route('/keyword/<method>/<text>/<book>/<chapter>/', methods=default_methods)
 @mod_bible.route('/keyword/<method>/<text>/<book>/', methods=default_methods)
-def keyword(method=None, text=None, book=None, chapter=None, verse=None):
+@mod_bible.route('/keyword/<method>/<text>/section/<section>', methods=default_methods)
+def keyword(method=None, text=None, book=None, chapter=None, verse=None, section=None):
     bible_schema = set_schema(many=True)
     if text and method:
         if book and chapter and verse:
@@ -68,6 +69,8 @@ def keyword(method=None, text=None, book=None, chapter=None, verse=None):
         elif book:
             data = lookup(book=book, return_object=True)
             subquery = True
+        elif section:
+            data = lookup(section=section, return_object=True)
         else:
             data = Bible.query
 
@@ -99,24 +102,30 @@ def keyword(method=None, text=None, book=None, chapter=None, verse=None):
 @mod_bible.route('/lookup/<book>/<chapter>/<verse>', methods=default_methods)
 @mod_bible.route('/lookup/<book>/<chapter>/', methods=default_methods)
 @mod_bible.route('/lookup/<book>/', methods=default_methods)
-def lookup(book=None, chapter=None, verse=None, return_object=False):
+@mod_bible.route('/lookup/section/<section>', methods=default_methods)
+def lookup(book=None, chapter=None, verse=None, section=None, return_object=False):
     bible_schema = set_schema(many=True)
 
     if book and chapter and verse:
-        if '-' in verse:
-            verse_split = verse.split('-')
-            verse1 = verse_split[0]
-            verse2 = verse_split[1]
-            data = Bible.query.filter(or_(Bible.book_id.like(book), Bible.book_abbr.like(book), Bible.book_name.like(book))).filter_by(chapter_id=chapter).filter(Bible.verse_id >= verse1).filter(Bible.verse_id <= verse2)
-        elif ',' in verse:
-            verse_range = verse.split(',')
-            data = Bible.query.filter(or_(Bible.book_id.like(book), Bible.book_abbr.like(book), Bible.book_name.like(book))).filter_by(chapter_id=chapter).filter(Bible.verse_id.in_(verse_range))
-        else:
-            data = Bible.query.filter(or_(Bible.book_id.like(book), Bible.book_abbr.like(book), Bible.book_name.like(book))).filter_by(chapter_id=chapter).filter_by(verse_id=verse)
+        verse_data = [x.strip() for x in verse.split(',')]
+        verses = []
+        for verse_block in verse_data:
+            if '-' in verse_block:
+                verse_split = verse_block.split('-')
+                verse1 = verse_split[0]
+                verse2 = verse_split[1]
+                verse_range = range(int(verse1), int(verse2)+1)
+                verses.extend(verse_range)
+            else:
+                verses.append(int(verse_block))
+
+        data = Bible.query.filter(or_(Bible.book_id.like(book), Bible.book_abbr.like(book), Bible.book_name.like(book))).filter_by(chapter_id=chapter).filter(Bible.verse_id.in_(verses))
     elif book and chapter:
         data = Bible.query.filter(or_(Bible.book_id.like(book), Bible.book_abbr.like(book), Bible.book_name.like(book))).filter_by(chapter_id=chapter)
     elif book:
         data = Bible.query.filter(or_(Bible.book_id.like(book), Bible.book_abbr.like(book), Bible.book_name.like(book)))
+    elif section:
+        data = Bible.query.filter(or_(Bible.section.like(section)))
 
     # results = bible_schema.dump(data)
     if return_object:
