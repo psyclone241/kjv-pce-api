@@ -40,6 +40,14 @@ angular
         'items_per_page': 25,
         'number_of_pages': null
       },
+      'reference_lookup': {
+        'data': null
+      },
+      'reference_data': {
+        'book': null,
+        'chapter': null,
+        'verses': null
+      },
       'select_another_book': false,
       'select_another_chapter': false,
       'select_another_verse': false,
@@ -80,6 +88,11 @@ angular
       $rootScope.data.select_another_book = true;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = false;
+      if($rootScope.data.reference_data) {
+        $rootScope.data.reference_data.book = null;
+        $rootScope.data.reference_data.chapter = null;
+        $rootScope.data.reference_data.verses = null;
+      }
       $rootScope.setAnchorScroll('anchor_book_' + $rootScope.data.selected_book.book_id);
     }
 
@@ -89,6 +102,10 @@ angular
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = true;
       $rootScope.data.select_another_verse = false;
+        $rootScope.data.reference_data.chapter = null;
+      if($rootScope.data.reference_data) {
+        $rootScope.data.reference_data.verses = null;
+      }
       $rootScope.setAnchorScroll('anchor_chapter_' + $rootScope.data.selected_book.selected_chapter.chapter_id);
     };
 
@@ -98,6 +115,9 @@ angular
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = true;
+      if($rootScope.data.reference_data) {
+        $rootScope.data.reference_data.verses = null;
+      }
       $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
     };
 
@@ -115,6 +135,16 @@ angular
         $rootScope.data.search_mode = true;
         $rootScope.config.body.navbar_expanded = false;
         $rootScope.setAnchorScroll('lookup_top');
+      }
+    };
+
+    $rootScope.lookupReference = function() {
+      if($rootScope.data.reference_lookup.data) {
+        if($rootScope.data.search_mode) {
+          $rootScope.data.search_parameters.active = false;
+          $rootScope.switchSearchMode();
+        }
+        $location.path('/lookup/reference/' + $rootScope.data.reference_lookup.data);
       }
     };
 

@@ -35,6 +35,7 @@
     <script src="/static/resources/angular/directives/main.js"></script>
     <script src="/static/resources/angular/directives/pressableelement.js"></script>
     <script src="/static/resources/angular/directives/contextmenu.js"></script>
+    <script src="/static/resources/angular/directives/pressenter.js"></script>
     <script src="/static/resources/angular/filters/main.js"></script>
     <script src="/static/resources/angular/filters/offset.js"></script>
     <script src="/static/resources/angular/filters/highlight.js"></script>
@@ -103,10 +104,14 @@
               <button type="button" class="btn btn-default btn-md" ng-click="data.selected_book || data.selected_book.selected_chapter ? selectAnotherChapter() : null" ng-if="data.selected_book.selected_chapter">{[data.selected_book.selected_chapter ? data.selected_book.selected_chapter.chapter_id : 'Chapter']}</button>
               <button type="button" class="btn btn-default btn-md" ng-click="data.selected_book.selected_verse ? selectAnotherVerse() : null" ng-if="data.selected_book.selected_verse">{[data.selected_book.selected_verse ? data.selected_book.selected_verse : 'Verse']}</button>
             </div>
-            <button type="button" class="btn pull-right" ng-class="data.search_mode ? 'btn-default' : 'btn-success'" ng-show="config.screen_name=='LookupController'" ng-click="switchSearchMode()">
+            <button type="button" class="btn pull-right" ng-class="data.search_mode || data.loading_book ? 'btn-default' : 'btn-success'" ng-show="config.screen_name=='LookupController' && !data.loading_book" ng-click="data.loading_book ? null: switchSearchMode()">
               <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             </button>
-            <!-- <input type="text" class="form-control pull-right" placeholder="Search" ng-show="config.screen_name=='LookupController'" style="width: 80px !important"> -->
+
+            <input type="text" class="form-control pull-left" placeholder="Reference" ng-if="config.screen_name=='LookupController' && !data.selected_book" style="width: 150px !important; margin-right: 5px !important;" ng-model="data.reference_lookup.data" press-enter="lookupReference()">
+            <button  ng-if="config.screen_name=='LookupController' && !data.selected_book" type="button" class="btn pull-left" ng-class="'btn-primary'" ng-click="lookupReference()">
+              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+            </button>
           </div>
         </div>
       </nav>

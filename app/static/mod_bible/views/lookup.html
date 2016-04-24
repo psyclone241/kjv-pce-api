@@ -136,6 +136,12 @@
 
   <div ng-if="(data.selected_book.selected_verse && data.selected_book.text) && (!data.select_another_book && !data.select_another_chapter && !data.select_another_verse)">
     <div id="verse_block" class="anchor"></div>
+    <div ng-if="data.reference_data.verses" class="alert alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Only referenced verses shown, click the 'verse' button above to reset
+    </div>
     <table class="table table-condensed">
       <tr
         ng-repeat="verse in data.selected_book.text"
