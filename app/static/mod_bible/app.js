@@ -16,6 +16,7 @@ angular
     $rootScope.defaults = {};
     $rootScope.data = {
       'books': [],
+      'loading_books':false,
       'selected_book': null,
       'search_mode': false,
       'book_query': {
@@ -30,18 +31,7 @@ angular
           'set': false,
           'match': 'contains'
         },
-        'section': {
-          'data': null,
-          'set': false
-        },
-        'book': {
-          'data': null,
-          'set': false
-        },
-        'chapter': {
-          'data': null,
-          'set': false
-        }
+        'limit_to': ''
       },
       'search_results': {
         'data': null,
@@ -80,6 +70,8 @@ angular
       $rootScope.data.select_another_book = false;
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = false;
+
+      $rootScope.setAnchorScroll('book_block');
     };
 
     $rootScope.selectAnotherBook = function() {
@@ -116,7 +108,7 @@ angular
         if($rootScope.data.selected_book) {
           if($rootScope.data.selected_book.selected_verse) {
             $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
-          }          
+          }
         }
       } else {
         // If search mode is already off
@@ -143,7 +135,7 @@ angular
         controllerAs: 'main',
         reloadOnSearch: false,
       })
-      .when('/lookup/:ref_id?', {
+      .when('/lookup/:object_id?/:object_data?', {
         templateUrl: '../static/mod_bible/views/lookup.html',
         controller: 'LookupController',
         controllerAs: 'lookup',

@@ -17,7 +17,6 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   var data_url = $scope.config.restUrl;
 
-  $scope.ref_id = null;
   $anchorScroll.yOffset = 120;
   $scope.column_width = '40%';
 
@@ -39,28 +38,33 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
       }],
   ];
 
-  $scope.getBooks = function(ref_id) {
-    HTTPService.get(data_url + 'get_books/').then(function (data) {
+  $scope.getBooks = function() {
+    var return_value = HTTPService.get(data_url + 'get_books/').then(function (data) {
       $scope.data.books = data.results;
-      if(ref_id) {
-        console.log('Lookup up a particular reference');
-        $scope.ref_id = ref_id;
-        var matched_book = null;
-        angular.forEach($scope.data.books, function(value, key) {
-          if((value.book_abbr==ref_id) || (value.book_name==ref_id) || (value.book_id==ref_id)) {
-            matched_book = value;
-          }
-        });
-
-        if(matched_book) {
-          // console.log(matched_book);
-          $scope.data.selected_book = matched_book;
-          $scope.selectBook();
-        } else {
-          console.log('No match found');
-        }
-      }
+      return true;
     });
+    return return_value;
+  };
+
+  $scope.findBook = function(book_value) {
+    var book_value = book_value.toLowerCase().trim();
+    if(book_value) {
+      console.log('Lookup up book: ' + book_value);
+      var matched_book = null;
+      angular.forEach($scope.data.books, function(value, key) {
+        if((value.book_abbr.toLowerCase()==book_value) || (value.book_name.toLowerCase()==book_value) || (value.book_id==book_value)) {
+          matched_book = value;
+        }
+      });
+
+      if(matched_book) {
+        LogService.logEntry(object_name, 'match', 'Matching Book Found', matched_book);
+        return matched_book;
+      } else {
+        LogService.logEntry(object_name, 'fail', 'No Matching Book Found');
+        return null;
+      }
+    }
   };
 
   $scope.selectBook = function(book) {
@@ -68,7 +72,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     $scope.data.select_another_book = false;
     $scope.data.book_query.book_name = null;
     if($scope.data.selected_book) {
-      console.log('Getting chapters');
+      LogService.logEntry(object_name, 'run', 'Getting Chapters');
       HTTPService.get(data_url + 'get_chapters/' + $scope.data.selected_book.book_id + '/verses').then(function (data) {
         $scope.data.selected_book = data.results;
         var chapter_range = []
@@ -79,7 +83,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
         $scope.data.chapter_range = chapter_range;
       });
     } else {
-      console.log('Nothing selected');
+      LogService.logEntry(object_name, 'fail', 'No Book Selected');
     }
   };
 
@@ -103,31 +107,53 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
 
   $scope.openChapter = function(chapter_id) {
     var selected_chapter = null;
-    angular.forEach($scope.data.selected_book.verses.by_chapter, function(value, key) {
-      if(value.chapter_id == chapter_id) {
-        selected_chapter = value;
-      }
-    });
+    if($scope.data.selected_book) {
+      if($scope.data.selected_book.verses) {
+        if($scope.data.selected_book.verses.by_chapter) {
+          angular.forEach($scope.data.selected_book.verses.by_chapter, function(value, key) {
+            if(value.chapter_id == chapter_id) {
+              selected_chapter = value;
+            }
+          });
 
-    if(selected_chapter) {
-      $scope.unsetChapter();
-      $scope.data.selected_book.selected_chapter = selected_chapter;
-      $scope.data.search_parameters.chapter.data = selected_chapter;
-      $scope.data.select_another_chapter = false;
-      var verse_range = []
-      var verse_max = selected_chapter.verse_id;
-      for(var i=1; i<=verse_max; i++) {
-        verse_range.push(i);
+          if(selected_chapter) {
+            $scope.unsetChapter();
+            $scope.data.selected_book.selected_chapter = selected_chapter;
+            $scope.data.select_another_chapter = false;
+            var verse_range = []
+            var verse_max = selected_chapter.verse_id;
+            for(var i=1; i<=verse_max; i++) {
+              verse_range.push(i);
+            }
+            $scope.data.verse_range = verse_range;
+          }
+        }
       }
-      $scope.data.verse_range = verse_range;
     }
   };
 
   $scope.openVerse = function(verse_id) {
-    HTTPService.get(data_url + 'lookup/' + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id).then(function (data) {
-      $scope.data.selected_book.text = data.results;
-      $scope.scrollToVerse(verse_id);
-    });
+    var scroll_to_verse = false;
+    var verse_query = '';
+    if(typeof(verse_id) == 'number') {
+      scroll_to_verse = true;
+    } else {
+      var first_verse = verse_id[0];
+      verse_query = '/' + verse_id.join(',');
+    }
+
+    if($scope.data.selected_book) {
+      if($scope.data.selected_book.selected_chapter) {
+        HTTPService.get(data_url + 'lookup/' + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id + verse_query).then(function (data) {
+          $scope.data.selected_book.text = data.results;
+          if(scroll_to_verse) {
+            $scope.scrollToVerse(verse_id);
+          } else {
+            $scope.scrollToVerse(first_verse);
+          }
+        });
+      }
+    }
   }
 
   $scope.scrollToVerse = function(verse_id) {
@@ -155,16 +181,12 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
     }
   }
 
-  $scope.setSearchParameter = function(key, value, disables_key) {
-    if($scope.data.search_parameters[key].set) {
-      $scope.data.search_parameters[key].data = value;
-    } else {
-      $scope.data.search_parameters[key].data = null;
-    }
+  $scope.setSearchParameter = function(value) {
+    $scope.data.search_parameters.limit_to.data = value;
   }
 
   $scope.search = function() {
-    console.log($scope.data.search_parameters);
+    LogService.logEntry(object_name, 'search', 'Searching', $scope.data.search_parameters);
     $scope.data.search_results.current_page = 1;
     $scope.data.search_parameters.active = true;
     $scope.data.search_parameters.keywords.set = true;
@@ -176,9 +198,22 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
       }
     }
 
+    var limit_to = '';
+    if($scope.data.search_parameters.limit_to) {
+      limit_to = $scope.data.search_parameters.limit_to;
+      if(limit_to == 'section') {
+        limit_to = '/section/' + $scope.data.selected_book.section;
+      } else if(limit_to == 'book') {
+        limit_to = '/' + $scope.data.selected_book.book_id;
+      } else if(limit_to == 'chapter') {
+        limit_to = '/' + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id;
+      } else {
+        limit_to = '';
+      }
+    }
+
     // + $scope.data.selected_book.book_id + '/' + $scope.data.selected_book.selected_chapter.chapter_id
-    HTTPService.get(data_url + 'keyword/' + $scope.data.search_parameters.keywords.match + '/' + $scope.data.search_parameters.keywords.data).then(function (data) {
-      console.log(data);
+    HTTPService.get(data_url + 'keyword/' + $scope.data.search_parameters.keywords.match + '/' + $scope.data.search_parameters.keywords.data + limit_to).then(function (data) {
       $scope.data.search_results.data = data;
       if(data.count > 0) {
         $scope.data.search_parameters.hide_panel = true;
@@ -209,15 +244,82 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
       if($scope.data.selected_book) {
         if($scope.data.selected_book.selected_verse) {
           $scope.setAnchorScroll('anchor_verse_' + $scope.data.selected_book.selected_verse);
+        } else {
+          console.log('chapter block');
+          $scope.setAnchorScroll('chapter_block');
         }
+      } else {
+        console.log('book block');
+        $scope.setAnchorScroll('book_block');
       }
     }
   }
 
-  $scope.getBooks($routeParams.ref_id);
-  if ($scope.data.selected_book) {
-    if($scope.data.selected_book.selected_verse) {
-      $scope.scrollToVerse($scope.data.selected_book.selected_verse);
+  $scope.getBooks();
+
+  $scope.$watch('data.books', function() {
+    if($scope.data.books) {
+      if($scope.data.books.length > 0) {
+        $scope.data.loading_books = false;
+
+        if ($scope.data.selected_book) {
+          if($scope.data.selected_book.selected_verse) {
+            $scope.scrollToVerse($scope.data.selected_book.selected_verse);
+          }
+        }
+      } else {
+        $scope.data.loading_books = true;
+      }
+    } else {
+      $scope.data.loading_book = true;
+    }
+  });
+
+  if($routeParams) {
+    if($routeParams.object_id=='reference') {
+      console.log('Lookup: ' + $routeParams.object_data);
+      var reference = $routeParams.object_data.toLowerCase().trim();
+      var regexs = /\s*:\s*/
+      var reference_parts = reference.split(regexs);
+      var reference_data = { 'book': null, 'chapter': null, 'verses': null };
+      if(reference_parts[0]) {
+        is_chapter = reference_parts[0].match(/\d+\s*$/gi);
+        if(is_chapter) {
+          reference_data['chapter'] = is_chapter[0];
+        }
+        reference_data['book'] = reference_parts[0].replace(/\d+\s*$/g, '');
+      }
+
+      if(reference_parts[1]) {
+        reference_data['verses'] = reference_parts[1].split(',');
+      }
+
+      console.log(reference_data);
+
+      if(reference_data['book']) {
+        var found_book = $scope.findBook(reference_data['book']);
+        if(reference_data['chapter']) {
+          $scope.selectBook(found_book);
+          $scope.$watch('data.chapter_range', function() {
+            if($scope.data.chapter_range) {
+              if($scope.data.chapter_range.length > 0) {
+                if($scope.data.chapter_range.indexOf(+reference_data['chapter']) >= 0) {
+                  $scope.openChapter(reference_data['chapter']);
+                  if(reference_data['verses']) {
+                    if($scope.data.selected_book) {
+                      if($scope.data.selected_book.verses) {
+                        $scope.openVerse(reference_data['verses']);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          });
+        } else {
+          $scope.selectBook(found_book);
+        }
+      }
     }
   }
 }

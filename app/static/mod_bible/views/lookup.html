@@ -34,24 +34,31 @@
       </div>
       <div class="form-group" ng-if="data.selected_book">
         <label for="limitto" class="col-sm-2 control-label">Limit to text in:</label>
-        <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.section">
-          <div class="checkbox">
+        <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.book_name">
+          <div class="radio">
             <label>
-              <input type="checkbox" id="verses_in_section" ng-change="setSearchParameter('section', data.selected_book.section)" ng-model="data.search_parameters.section.set"> the {[data.sections[data.selected_book.section]]}
+              <input type="radio" name="no_limit" id="no_limit" ng-model="data.search_parameters.limit_to" value=""> the Whole Bible
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.section">
+          <div class="radio">
+            <label>
+              <input type="radio" name="verses_in_section" id="verses_in_section" ng-model="data.search_parameters.limit_to" value="section"> the {[data.sections[data.selected_book.section]]}
             </label>
           </div>
         </div>
         <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.book_name">
-          <div class="checkbox">
+          <div class="radio">
             <label>
-              <input type="checkbox" id="verses_in_book" ng-change="setSearchParameter('book', data.selected_book, 'chapter')" ng-model="data.search_parameters.book.set"> the current book, {[data.selected_book.book_name]}
+              <input type="radio" name="verses_in_book" id="verses_in_book" ng-model="data.search_parameters.limit_to" value="book"> the current book, {[data.selected_book.book_name]}
             </label>
           </div>
         </div>
         <div class="col-sm-offset-2 col-sm-10" ng-if="data.selected_book.selected_chapter">
-          <div class="checkbox">
+          <div class="radio">
             <label>
-              <input type="checkbox" id="verses_in_chapter" ng-change="setSearchParameter('chapter', data.selected_book.selected_chapter)" ng-model="data.search_parameters.chapter.set" ng-disabled="data.search_parameters.chapter_disabled"> the current chapter, {[data.selected_book.book_name]} {[data.selected_book.selected_chapter.chapter_id]}
+              <input type="radio" name="verses_in_chapter" id="verses_in_chapter" ng-model="data.search_parameters.limit_to" value="chapter"> the current chapter, {[data.selected_book.book_name]} {[data.selected_book.selected_chapter.chapter_id]}
             </label>
           </div>
         </div>
@@ -91,9 +98,10 @@
 <div ng-if="data.search_parameters.active && data.search_results.data && data.search_results.data.count <= 0">
   No verses matched your criteria
 </div>
-
-<div ng-if="!data.search_parameters.active">
+<div ng-if="data.loading_books">Loading....</div>
+<div ng-if="!data.search_parameters.active && !data.loading_books">
   <div ng-if="!data.selected_book || data.select_another_book">
+    <div id="book_block" class="anchor"></div>
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Select a Book:</h3>

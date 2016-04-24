@@ -1,6 +1,6 @@
 angular.module('mlt.services')
 .service('HTTPService', function ($http, $q, LogService) {
-  var objectName = 'services.http-service';
+  var objectName = 'mlt.services.http-service';
   return {
    get: function(url, timeout) {
      var message = 'retrieving data from [' + url + ']';
