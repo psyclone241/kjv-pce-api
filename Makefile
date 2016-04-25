@@ -27,7 +27,7 @@ venvrequire:
 installrequire:
 	@pip install -r requirements.txt
 
-servelocal:
+serve:
 	@bash scripts/servelocal.sh
 
 testflask:
