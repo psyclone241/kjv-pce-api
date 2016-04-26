@@ -33,3 +33,5 @@ SECRET_KEY = "secret2"
 
 IP_ADDRESS = "127.0.0.1"
 PORT = 9100
+
+plugins = ['app.mod_bible.controllers.mod_bible']
