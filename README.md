@@ -24,6 +24,7 @@
 * Run the service
   * `make serve`
 * All following commands are prefaced with http://your_host_name:your_port
+* Use web interface, go to http://your_host_name:your_port/bible/
 * Get Sections (NT/OT)
   * List All Books in the OT
     * /bible/get_section/OT

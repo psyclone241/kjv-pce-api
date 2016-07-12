@@ -6,6 +6,7 @@ import flask.views
 # Import SQLAlchemy
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from werkzeug.utils import import_string
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -45,8 +46,10 @@ def root():
 def readMe():
     return render_template('root/readme.html'), 200
 
-# Register blueprint(s)
-app.register_blueprint(bible_module)
+# Register the modules that will be loaded as plugins
+for plugin in config.plugins:
+    this_plugin = import_string(plugin)
+    app.register_blueprint(this_plugin)
 
 @app.after_request
 def after_request(response):

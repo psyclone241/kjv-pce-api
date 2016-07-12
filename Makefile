@@ -9,7 +9,7 @@ help:
 	@echo "\tvenvsetup - setup the venv for the application"
 	@echo "\tvenvrequire - install requirements in venv"
 	@echo "\tinstallrequire - install requirements for production server"
-	@echo "\tservelocal - start the server instance"
+	@echo "\tserve - start the server instance"
 	@echo "\ttestflask - run the basic testing suite for the flask app"
 
 copyconfig:
@@ -27,7 +27,7 @@ venvrequire:
 installrequire:
 	@pip install -r requirements.txt
 
-servelocal:
+serve:
 	@bash scripts/servelocal.sh
 
 testflask:

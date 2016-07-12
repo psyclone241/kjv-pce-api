@@ -16,7 +16,7 @@
   * Modify the flaskapp.wsgi file to show your installed /var/www/directory
 
 ## Local Python Server Setup
-* You can run `make servelocal`
+* You can run `make serve`
 
 ## Make the Config Files
 * Run `make copyconfig`
