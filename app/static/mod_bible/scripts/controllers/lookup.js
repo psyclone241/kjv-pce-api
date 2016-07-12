@@ -5,10 +5,11 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   LogService.logEntry(object_name, 'start', 'Initialize controller');
 
   $scope.config.screen_name = object_name;
-  $scope.config.body.navbar_collapsed = false;
+  $scope.config.body.navbar_collapsed = true;
   $scope.config.body.expand_disabled = false;
   $scope.config.body.style = {
-    "padding-top": "100px"
+    // "padding-top": "100px"
+    "padding-top": "50px"
   };
   $scope.config.navbar.style = {
     "background-color": "#CECECE",
@@ -16,8 +17,8 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   };
 
   var data_url = $scope.config.restUrl;
-
-  $anchorScroll.yOffset = 120;
+  // $anchorScroll.yOffset = 120;
+  $anchorScroll.yOffset = 80;
   $scope.column_width = '40%';
 
   $scope.setPage = function(page_number) {
@@ -159,7 +160,7 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
   $scope.scrollToVerse = function(verse_id) {
     $scope.data.selected_book.selected_verse = verse_id;
     $scope.data.select_another_verse = false;
-    $scope.setAnchorScroll('anchor_verse_' + verse_id);
+    $scope.setAnchorScroll('lookup', 'anchor_verse_' + verse_id);
   }
 
   $scope.unsetBook = function() {
@@ -243,14 +244,14 @@ function($scope, $route, $uibModal, $routeParams, HTTPService, LogService, $anch
       $scope.data.search_mode = false;
       if($scope.data.selected_book) {
         if($scope.data.selected_book.selected_verse) {
-          $scope.setAnchorScroll('anchor_verse_' + $scope.data.selected_book.selected_verse);
+          $scope.setAnchorScroll('lookup', 'anchor_verse_' + $scope.data.selected_book.selected_verse);
         } else {
           console.log('chapter block');
-          $scope.setAnchorScroll('chapter_block');
+          $scope.setAnchorScroll('lookup', 'chapter_block');
         }
       } else {
         console.log('book block');
-        $scope.setAnchorScroll('book_block');
+        $scope.setAnchorScroll('lookup', 'book_block');
       }
     }
   }

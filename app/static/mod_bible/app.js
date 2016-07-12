@@ -63,9 +63,9 @@ angular
       $location.path('/');
     };
 
-    $rootScope.setAnchorScroll = function(scroll_target) {
+    $rootScope.setAnchorScroll = function(controller_target, scroll_target) {
       $location.hash(scroll_target);
-      $location.path('/lookup');
+      $location.path('/' + controller_target);
       $anchorScroll();
     }
 
@@ -79,7 +79,7 @@ angular
       $rootScope.data.select_another_chapter = false;
       $rootScope.data.select_another_verse = false;
 
-      $rootScope.setAnchorScroll('book_block');
+      $rootScope.setAnchorScroll('lookup', 'book_block');
     };
 
     $rootScope.selectAnotherBook = function() {
@@ -93,7 +93,7 @@ angular
         $rootScope.data.reference_data.chapter = null;
         $rootScope.data.reference_data.verses = null;
       }
-      $rootScope.setAnchorScroll('anchor_book_' + $rootScope.data.selected_book.book_id);
+      $rootScope.setAnchorScroll('lookup', 'anchor_book_' + $rootScope.data.selected_book.book_id);
     }
 
     $rootScope.selectAnotherChapter = function() {
@@ -106,7 +106,7 @@ angular
       if($rootScope.data.reference_data) {
         $rootScope.data.reference_data.verses = null;
       }
-      $rootScope.setAnchorScroll('anchor_chapter_' + $rootScope.data.selected_book.selected_chapter.chapter_id);
+      $rootScope.setAnchorScroll('lookup', 'anchor_chapter_' + $rootScope.data.selected_book.selected_chapter.chapter_id);
     };
 
     $rootScope.selectAnotherVerse = function() {
@@ -118,7 +118,7 @@ angular
       if($rootScope.data.reference_data) {
         $rootScope.data.reference_data.verses = null;
       }
-      $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+      $rootScope.setAnchorScroll('lookup', 'anchor_verse_' + $rootScope.data.selected_book.selected_verse);
     };
 
     $rootScope.switchSearchMode = function() {
@@ -127,14 +127,14 @@ angular
         $rootScope.data.search_mode = false;
         if($rootScope.data.selected_book) {
           if($rootScope.data.selected_book.selected_verse) {
-            $rootScope.setAnchorScroll('anchor_verse_' + $rootScope.data.selected_book.selected_verse);
+            $rootScope.setAnchorScroll('lookup', 'anchor_verse_' + $rootScope.data.selected_book.selected_verse);
           }
         }
       } else {
         // If search mode is already off
         $rootScope.data.search_mode = true;
         $rootScope.config.body.navbar_expanded = false;
-        $rootScope.setAnchorScroll('lookup_top');
+        $rootScope.setAnchorScroll('lookup', 'lookup_top');
       }
     };
 
