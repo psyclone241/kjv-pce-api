@@ -1,4 +1,5 @@
 #!/usr/bin/env pythons
+from app.mod_bible.modconfig import config as modconfig
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
 from app import db
@@ -13,12 +14,11 @@ from sqlalchemy.dialects.mysql import \
 
 # Define a base model for other database tables to inherit
 class Base(db.Model):
-
     __abstract__  = True
 
 # Define a Bible model
 class Bible(Base):
-
+    __bind_key__ = modconfig['bind_key']
     __tablename__ = 'Bible'
 
     id = db.Column(SMALLINT(5), primary_key=True)
