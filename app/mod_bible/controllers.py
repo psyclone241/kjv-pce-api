@@ -12,6 +12,7 @@ from sqlalchemy import func
 
 # from app import config as config
 from modconfig import config as modconfig
+from constants import constants as constants
 
 # Import module models (i.e. User)
 if modconfig['db'] == 'sqlite':
@@ -47,7 +48,7 @@ def readMe():
 @mod_bible.route('/version', methods=default_methods)
 def version():
     version_data = {
-        'version': modconfig['version']
+        'version': constants['version']
     }
     return tools.makeResponse(results=version_data, errors=False, message='API Version Response')
 
