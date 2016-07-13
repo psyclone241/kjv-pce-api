@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 # Import flask dependencies
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 import flask.views
@@ -8,18 +9,17 @@ from sqlalchemy import or_
 from sqlalchemy import func
 
 # Import the database object from the main app module
-from app import db
-from app import config as config
+
+# from app import config as config
+from modconfig import config as modconfig
 
 # Import module models (i.e. User)
-if config.DB == 'sqlite':
+if modconfig['db'] == 'sqlite':
     from app.mod_bible.models.sqlite import Bible
     from app.mod_bible.models.sqlite import BibleSchema
-elif config.DB == 'mysql':
+elif modconfig['db'] == 'mysql':
     from app.mod_bible.models.mysql import Bible
     from app.mod_bible.models.mysql import BibleSchema
-
-from modconfig import config as modconfig
 
 # Get some shared methods that the app can use for various things
 # like printing json back to the browser

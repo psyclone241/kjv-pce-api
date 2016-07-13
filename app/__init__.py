@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 # Configurations
 app.config.from_object('config')
+
 import config as config
 
 # Define the database object which is imported
@@ -35,9 +36,6 @@ def not_found(error):
 def internal_error(error):
     return tools.makeResponse(results=None, errors=True, message='Internal Error')
 
-# Import a module / component using its blueprint handler variable
-from app.mod_bible.controllers import mod_bible as bible_module
-
 @app.route('/', methods=default_methods)
 def root():
     return render_template('root/main.html'), 200
@@ -47,7 +45,7 @@ def readMe():
     return render_template('root/readme.html'), 200
 
 # Register the modules that will be loaded as plugins
-for plugin in config.plugins:
+for plugin in config.PLUGINS:
     this_plugin = import_string(plugin)
     app.register_blueprint(this_plugin)
 
@@ -58,9 +56,5 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
 
-# Build the database:
-# This will create the database file using SQLAlchemy
-# TODO: This needs to be added to a manage.py script for MySQL installs
-# db.create_all()
 if __name__ == "__main__":
     app.run()
