@@ -15,6 +15,7 @@ angular
     $rootScope.routes.enabled = false;
     $rootScope.defaults = {};
     $rootScope.data = {
+      'version_information': [],
       'books': [],
       'loading_books':false,
       'selected_book': null,
@@ -165,10 +166,34 @@ angular
         controllerAs: 'main',
         reloadOnSearch: false,
       })
+      .when('/plugin', {
+        templateUrl: '../static/mod_bible/views/plugin.html',
+        controller: 'PluginController',
+        controllerAs: 'plugin',
+        reloadOnSearch: false,
+      })
+      .when('/tool/:method?/', {
+        templateUrl: '../static/mod_bible/views/tool.html',
+        controller: 'ToolController',
+        controllerAs: 'tool',
+        reloadOnSearch: false,
+      })
       .when('/lookup/:object_id?/:object_data?', {
         templateUrl: '../static/mod_bible/views/lookup.html',
         controller: 'LookupController',
         controllerAs: 'lookup',
+        reloadOnSearch: false,
+      })
+      .when('/setting', {
+        templateUrl: '../static/mod_bible/views/setting.html',
+        controller: 'SettingController',
+        controllerAs: 'setting',
+        reloadOnSearch: false,
+      })
+      .when('/about', {
+        templateUrl: '../static/mod_bible/views/about.html',
+        controller: 'AboutController',
+        controllerAs: 'about',
         reloadOnSearch: false,
       })
       .otherwise({ redirectTo: '/' });
