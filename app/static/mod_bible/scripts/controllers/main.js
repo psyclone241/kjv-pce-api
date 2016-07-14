@@ -5,15 +5,16 @@ angular.module('KJVPCE-Bible')
     LogService.logEntry(object_name, 'start', 'Initialize controller');
 
     $scope.config.screen_name = object_name;
-    $scope.config.body.navbar_collapsed = false;
+    $scope.config.body.navbar_collapsed = true;
+    $scope.config.body.expand_disabled = false;
     $scope.config.body.style = {
+      // "padding-top": "100px"
       "padding-top": "50px"
     };
     $scope.config.navbar.style = {
-      "background-color": "blue",
-      "height": "5px"
+      "background-color": "#CECECE",
+      "height": "55px"
     };
-    // $scope.config.body.style = $scope.defaults.body.style;
 
     $scope.itemOnLongPress = function (id) {
       $scope.result = 'itemOnLongPress: ' + id;
