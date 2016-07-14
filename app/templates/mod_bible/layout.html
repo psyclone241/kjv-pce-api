@@ -42,7 +42,11 @@
 
     <script src="/static/mod_bible/app.js"></script>
     <script src="/static/mod_bible/scripts/controllers/main.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/plugin.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/tool.js"></script>
     <script src="/static/mod_bible/scripts/controllers/lookup.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/setting.js"></script>
+    <script src="/static/mod_bible/scripts/controllers/about.js"></script>
     <script src="/static/mod_bible/scripts/directives/buttonrange.js"></script>
 
     <!-- Custom styles for this template -->
@@ -65,8 +69,8 @@
           </div>
           <div id="navbar" class="navbar-collapse" ng-class="config.body.navbar_expanded ? '' : 'collapse'">
             <ul class="nav navbar-nav">
-              <li><a href="#about">About</a></li>
-              <li class="dropdown">
+              <li><a href="#/about">About</a></li>
+              <!-- <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#/">Action</a></li>
@@ -74,13 +78,13 @@
                   <li class="dropdown-header">Nav header</li>
                   <li><a href="#/">Separated link</a></li>
                 </ul>
-              </li>
+              </li> -->
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <!-- <ul class="nav navbar-nav navbar-right">
               <li><a href="#/">Default</a></li>
               <!-- <li><a href="#/">Static top <span class="sr-only">(current)</span></a></li>
               <li><a href="#/">Fixed top</a></li> -->
-            </ul>
+            </ul> -->
             <!-- <form class = "navbar-form navbar-left" role = "search">
               <div class = "form-group">
                 <input type = "text" class = "form-control" placeholder = "Search">
@@ -94,6 +98,21 @@
               <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             </button> -->
             <!-- <span ng-if="!data.selected_book && config.screen_name=='LookupController'">Back to Home</span> -->
+            <div ng-if="config.screen_name=='MainController'">
+              <div class="text-center">
+                <h4>Welcome to MLT Bible Module!</h4>
+              </div>
+            </div>
+            <div ng-if="config.screen_name=='PluginController'">
+              <div class="text-center">
+                <h4>MLT Bible Plugins</h4>
+              </div>
+            </div>
+            <div ng-if="config.screen_name=='ToolController'">
+              <div class="text-center">
+                <h4>MLT Bible Tools</h4>
+              </div>
+            </div>
             <div class="btn-group" role="group" aria-label="..." ng-if="config.screen_name=='LookupController' && data.selected_book">
               <button type="button" class="btn btn-warning btn-md" ng-click="clearBookSelection()">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -111,7 +130,17 @@
             <input type="text" class="form-control pull-left" placeholder="Reference" ng-if="config.screen_name=='LookupController' && !data.selected_book" style="width: 150px !important; margin-right: 5px !important;" ng-model="data.reference_lookup.data" press-enter="lookupReference()">
             <button  ng-if="config.screen_name=='LookupController' && !data.selected_book" type="button" class="btn pull-left" ng-class="'btn-primary'" ng-click="lookupReference()">
               <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-            </button>
+            </button>            
+            <div ng-if="config.screen_name=='SettingController'">
+              <div class="text-center">
+                <h4>MLT Bible Settings</h4>
+              </div>
+            </div>
+            <div ng-if="config.screen_name=='AboutController'">
+              <div class="text-center">
+                <h4>MLT Bible Module - KJV PCE</h4>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
@@ -125,12 +154,12 @@
       <!-- Bottom Navigation Bar -->
       <div class="col-xs-12 navbar-inverse navbar-fixed-bottom">
         <div class="row" id="bottomNav">
-          <div class="col-xs-3 text-center stuff"><a href="#/" title="Home"><i class="glyphicon glyphicon-home"></i></a></div>
-          <div class="col-xs-2 text-center"><a href="#/plugins" title="Plugins"><i class="glyphicon glyphicon-briefcase"></i></a></div>
-          <div class="col-xs-2 text-center"><a href="#/tools/add" title="Tools"><i class="glyphicon glyphicon-plus"></i></a></div>
+          <div class="col-xs-2 text-center stuff"><a href="#/" title="Home"><i class="glyphicon glyphicon-home"></i></a></div>
+          <div class="col-xs-2 text-center"><a href="#/plugin" title="Plugins"><i class="glyphicon glyphicon-briefcase"></i></a></div>
+          <div class="col-xs-2 text-center"><a href="#/tool/add" title="Tools"><i class="glyphicon glyphicon-plus"></i></a></div>
           <div class="col-xs-2 text-center"><a href="#/lookup" title="Lookup"><i class="glyphicon glyphicon-book"></i></a></div>
-          <!-- <div class="col-xs-2 text-center"><a href="#/lookup" title="Lookup"><i class="glyphicon glyphicon-search"></i></a></div> -->
-          <div class="col-xs-3 text-center"><a href="#/settings" title="Settings"><i class="glyphicon glyphicon-cog"></i></a></div>
+          <div class="col-xs-2 text-center"><a href="#/setting" title="Settings"><i class="glyphicon glyphicon-cog"></i></a></div>
+          <div class="col-xs-2 text-center"><a href="#/about" title="About"><i class="glyphicon glyphicon-info-sign"></i></a></div>
         </div>
       </div>
     </div>
