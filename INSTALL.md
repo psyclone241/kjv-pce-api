@@ -14,6 +14,8 @@
   * Copy flaskapp.example.wsgi to flaskapp.wsgi
     * `cp flaskapp.example.wsgi flaskapp.wsgi`
   * Modify the flaskapp.wsgi file to show your installed /var/www/directory
+  * Add a custom configuration file for your new site, or use the contents to modify your current
+    * Files located in data/apache_files/
 
 ## Local Python Server Setup
 * You can run `make serve`
@@ -23,6 +25,7 @@
   * You can run the copy of these files manually by doing:
     * `cp config.example.py file config.py`
     * `cp app/static/mod_bible/config/config.example.json app/static/mod_bible/config/config.json`
+    * `cp app/mod_bible/modconfig.example.py app/mod_bible/modconfig.py`
 * Open config.py in the editor of your choice and modify the following settings
   * DEBUG -> Debugging State
   * DB -> Type of Datbase (mysql or sqlite)
@@ -34,6 +37,11 @@
 * Open app/static/mod_bible/config/config.json in the editor of your choice and modify the following settings
   * mode.current -> Set this to development, staging, or production (these are configurable)
   * restUrl -> Set the development, staging, or production instance restUrl to your IP_ADDRESS & PORT from above
+
+## Load Bower Components
+  * Install bower components
+    * Run `make loadbower`
+    * From the root, you can run, `bower install`
 
 ## MySQL Database Setup
 * Install MySQL Server or load database file into a running instance
